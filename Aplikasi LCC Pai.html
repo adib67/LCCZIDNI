@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahabat LCC Zidni - Belajar PAI Seru</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Google (Fredoka & Quicksand untuk kesan friendly, ceria, dan mudah dibaca) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@400..700&display=swap" rel="stylesheet">
+    <!-- FontAwesome untuk ikon menarik -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti untuk perayaan -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #f0fdf4; /* Light emerald green */
+        }
+        h1, h2, h3, h4, .font-kids {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .custom-shadow {
+            box-shadow: 0 8px 0px 0px #1e3a1e;
+        }
+        .btn-bounce:active {
+            transform: translateY(4px);
+        }
+        /* Hide scrollbar for clean card UI */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800 pb-12">
+
+
+    <!-- Header / Navbar -->
+    <header class="bg-emerald-600 text-white py-5 px-6 shadow-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-yellow-400 p-2.5 rounded-full text-emerald-900 animate-bounce">
+                    <i class="fa-solid fa-trophy text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold tracking-wide">Sahabat LCC Zidni</h1>
+                    <p class="text-sm text-emerald-100 font-medium">Bahan Belajar & 10 Paket Kuis PAI Kelas 4</p>
+                </div>
+            </div>
+            <!-- Fitur Suara Toggle -->
+            <button id="soundToggle" onclick="toggleSound()" class="bg-emerald-700 hover:bg-emerald-800 transition px-4 py-2 rounded-full text-sm flex items-center space-x-2 border border-emerald-500">
+                <i id="soundIcon" class="fa-solid fa-volume-high text-base"></i>
+                <span class="hidden md:inline font-bold">Suara: On</span>
+            </button>
+        </div>
+    </header>
+
+
+    <!-- Main Container -->
+    <main class="max-w-4xl w-full mx-auto px-4 py-6 flex-grow">
+        
+        <!-- Welcome Section -->
+        <section id="welcome-section" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-emerald-500 mb-8 relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-yellow-100 rounded-full opacity-50"></div>
+            <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-emerald-50 rounded-full opacity-60"></div>
+
+
+            <div class="relative z-10 text-center md:text-left md:flex items-center justify-between">
+                <div class="md:w-2/3">
+                    <span class="bg-yellow-300 text-yellow-900 text-xs md:text-sm font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">Semangat Juara! 🏆</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-emerald-800 mt-3 mb-3">Halo, Zidni Pejuang LCC! 👋</h2>
+                    <p class="text-slate-600 text-base md:text-lg mb-6 leading-relaxed">
+                        Yuk bersiap menjadi juara LCC PAI tingkat sekolah! Pilih materi dengan **ukuran huruf besar** di bawah untuk belajar, atau langsung uji kemampuanmu dengan **10 Paket Kuis Spesial** tanpa batas waktu!
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a href="#belajar" onclick="switchTab('belajar')" class="bg-emerald-500 hover:bg-emerald-600 text-white text-center font-bold text-lg px-6 py-3.5 rounded-2xl shadow-lg transition transform hover:-translate-y-1 btn-bounce">
+                            <i class="fa-solid fa-book-open mr-2"></i> Mulai Belajar
+                        </a>
+                        <button onclick="switchTab('kuis')" class="bg-yellow-400 hover:bg-yellow-500 text-emerald-900 font-bold text-lg px-6 py-3.5 rounded-2xl shadow-lg transition transform hover:-translate-y-1 btn-bounce">
+                            <i class="fa-solid fa-gamepad mr-2"></i> Pilih Paket Kuis (1-10)
+                        </button>
+                    </div>
+                </div>
+                <div class="hidden md:block md:w-1/3 text-center">
+                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🎓</text></svg>" alt="Graduation Icon" class="w-36 h-36 mx-auto drop-shadow-lg">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Menu Belajar vs Kuis Tabs -->
+        <div class="flex border-b-4 border-emerald-200 mb-8">
+            <button onclick="switchTab('belajar')" id="tab-belajar" class="flex-1 text-center py-4 font-kids text-xl font-bold border-b-4 border-emerald-500 text-emerald-700 transition">
+                <i class="fa-solid fa-graduation-cap mr-2"></i> 1. Bahan Belajar (Font Besar)
+            </button>
+            <button onclick="switchTab('kuis')" id="tab-kuis" class="flex-1 text-center py-4 font-kids text-xl font-bold border-b-4 border-transparent text-slate-500 hover:text-emerald-600 transition">
+                <i class="fa-solid fa-gamepad mr-2"></i> 2. Kuis Interaktif (10 Paket)
+            </button>
+        </div>
+
+
+        <!-- ================= TAB BAHAN BELAJAR (FONT BESAR) ================= -->
+        <section id="tab-content-belajar" class="space-y-8">
+            
+            <!-- Category Chips -->
+            <div class="flex space-x-2 overflow-x-auto pb-3 no-scrollbar">
+                <button onclick="showCategory('tajwid')" id="chip-tajwid" class="chip-btn bg-emerald-600 text-white px-6 py-3.5 rounded-full font-bold text-base shadow-md flex items-center whitespace-nowrap">
+                    🕌 Hukum Tajwid
+                </button>
+                <button onclick="showCategory('sifat-allah')" id="chip-sifat-allah" class="chip-btn bg-slate-200 text-slate-700 px-6 py-3.5 rounded-full font-bold text-base hover:bg-slate-300 transition flex items-center whitespace-nowrap">
+                    ✨ Sifat Allah
+                </button>
+                <button onclick="showCategory('mukjizat')" id="chip-mukjizat" class="chip-btn bg-slate-200 text-slate-700 px-6 py-3.5 rounded-full font-bold text-base hover:bg-slate-300 transition flex items-center whitespace-nowrap">
+                    🐪 Mukjizat Nabi
+                </button>
+                <button onclick="showCategory('malaikat')" id="chip-malaikat" class="chip-btn bg-slate-200 text-slate-700 px-6 py-3.5 rounded-full font-bold text-base hover:bg-slate-300 transition flex items-center whitespace-nowrap">
+                    👼 Malaikat & Tugas
+                </button>
+            </div>
+
+
+            <!-- Content Card: TAJWID -->
+            <div id="content-tajwid" class="content-block bg-white rounded-3xl p-6 md:p-8 shadow-lg border-2 border-emerald-100">
+                <div class="flex items-center space-x-4 mb-8">
+                    <span class="text-4xl">🕌</span>
+                    <div>
+                        <h3 class="text-3xl font-bold text-emerald-800">Hukum Tajwid</h3>
+                        <p class="text-base text-slate-500 font-medium">Aturan penting membaca Al-Qur'an secara benar</p>
+                    </div>
+                </div>
+
+
+                <div class="grid md:grid-cols-2 gap-8 text-lg">
+                    <!-- Nun Mati & Tanwin -->
+                    <div class="bg-emerald-50 rounded-2xl p-6 border-2 border-emerald-200 space-y-4">
+                        <h4 class="font-bold text-emerald-950 text-xl flex items-center border-b pb-2 border-emerald-200">
+                            <span class="bg-emerald-200 text-emerald-800 px-3 py-1 rounded-lg text-sm mr-2 font-bold">Bagian 1</span>
+                            Nun Mati (نْ) & Tanwin (ً ٍ ٌ)
+                        </h4>
+                        <ul class="space-y-4">
+                            <li class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-emerald-500">
+                                <strong class="text-emerald-800 text-lg block">1. Izhar Halqi (Jelas)</strong>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Dibaca jelas tanpa mendengung saat bertemu huruf: <strong class="text-emerald-600 text-lg">ا, ح, kh (خ), ع, gh (غ), هـ</strong></p>
+                                <span class="inline-block mt-2 text-sm bg-slate-100 px-3 py-1 rounded font-bold italic">Contoh: مَنْ آمَنَ (Man Aamana)</span>
+                            </li>
+                            <li class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-emerald-500">
+                                <strong class="text-emerald-800 text-lg block">2. Idgham Bighunnah (Masuk + Dengung)</strong>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Dibaca lebur mendengung saat bertemu huruf: <strong class="text-emerald-600 text-lg">ي, ن, م, و</strong></p>
+                                <span class="inline-block mt-2 text-sm bg-slate-100 px-3 py-1 rounded font-bold italic">Contoh: مَنْ يَقُوْلُ (May-yaquulu)</span>
+                            </li>
+                            <li class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-emerald-500">
+                                <strong class="text-emerald-800 text-lg block">3. Idgham Bilaghunnah (Masuk Tanpa Dengung)</strong>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Dibaca lebur langsung tanpa mendengung saat bertemu huruf: <strong class="text-emerald-600 text-lg">ل, ر</strong></p>
+                                <span class="inline-block mt-2 text-sm bg-slate-100 px-3 py-1 rounded font-bold italic">Contoh: مِنْ رَبِّهِمْ (Mir-rabbihim)</span>
+                            </li>
+                            <li class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-emerald-500">
+                                <strong class="text-emerald-800 text-lg block">4. Iqlab (Mengubah Jadi Suara "M")</strong>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Suara Nun/tanwin berubah menjadi "Mim" saat bertemu huruf: <strong class="text-emerald-600 text-lg">ب</strong></p>
+                                <span class="inline-block mt-2 text-sm bg-slate-100 px-3 py-1 rounded font-bold italic">Contoh: مِنْ بَعْدِ (Mim-ba'di)</span>
+                            </li>
+                            <li class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-emerald-500">
+                                <strong class="text-emerald-800 text-lg block">5. Ikhfa Haqiqi (Samar-samar)</strong>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Dibaca samar dengan dengung jika bertemu 15 huruf sisa (t, ts, j, d, dz, z, s, sy, sh, dh, th, zh, f, q, k)</p>
+                                <span class="inline-block mt-2 text-sm bg-slate-100 px-3 py-1 rounded font-bold italic">Contoh: مِنْ دُوْنِ (Min-duuni)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <!-- Mim Mati & Alif Lam -->
+                    <div class="space-y-6 text-lg">
+                        <div class="bg-amber-50 rounded-2xl p-6 border-2 border-amber-200 space-y-4">
+                            <h4 class="font-bold text-amber-950 text-xl flex items-center border-b pb-2 border-amber-200">
+                                <span class="bg-amber-200 text-amber-800 px-3 py-1 rounded-lg text-sm mr-2 font-bold">Bagian 2</span>
+                                Mim Mati (مْ)
+                            </h4>
+                            <ul class="space-y-4">
+                                <li class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-amber-500">
+                                    <strong class="text-amber-900 text-lg block">Ikhfa Syafawi</strong>
+                                    <p class="text-slate-700 text-base mt-1 leading-relaxed">Mim mati bertemu huruf <strong class="text-amber-700">ب</strong> (dibaca samar & mendengung di bibir).</p>
+                                    <span class="inline-block mt-2 text-sm bg-slate-100 px-3 py-1 rounded font-bold italic">Contoh: تَرْمِيْهِمْ بِحِجَارَةٍ</span>
+                                </li>
+                                <li class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-amber-500">
+                                    <strong class="text-amber-900 text-lg block">Idgham Mimi / Mutamasilain</strong>
+                                    <p class="text-slate-700 text-base mt-1 leading-relaxed">Mim mati bertemu sesama huruf <strong class="text-amber-700">م</strong> (lebur & mendengung).</p>
+                                    <span class="inline-block mt-2 text-sm bg-slate-100 px-3 py-1 rounded font-bold italic">Contoh: فِيْ قُلُوْبِهِمْ مَرَضٌ</span>
+                                </li>
+                                <li class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-amber-500">
+                                    <strong class="text-amber-900 text-lg block">Izhar Syafawi</strong>
+                                    <p class="text-slate-700 text-base mt-1 leading-relaxed">Mim mati bertemu huruf selain <strong class="text-amber-700">ب</strong> dan <strong class="text-amber-700">م</strong> (dibaca jelas tanpa mendengung).</p>
+                                    <span class="inline-block mt-2 text-sm bg-slate-100 px-3 py-1 rounded font-bold italic">Contoh: لَهُمْ فِيهَا</span>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <div class="bg-blue-50 rounded-2xl p-6 border-2 border-blue-200 space-y-4">
+                            <h4 class="font-bold text-blue-950 text-xl flex items-center border-b pb-2 border-blue-200">
+                                <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-lg text-sm mr-2 font-bold">Bagian 3</span>
+                                Alif Lam (ال) & Mad Asli
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500">
+                                    <strong class="text-blue-900 text-lg block">Alif Lam Qomariyah (Jelas)</strong>
+                                    <p class="text-slate-700 text-base mt-1 leading-relaxed">Huruf "Al" dibaca jelas. Contoh: <strong class="text-blue-700 text-lg">الْقَمَرُ</strong> (Al-Qomaru).</p>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500">
+                                    <strong class="text-blue-900 text-lg block">Alif Lam Syamsiyah (Melebur)</strong>
+                                    <p class="text-slate-700 text-base mt-1 leading-relaxed">Huruf "Al" tidak terbaca, langsung melebur ke huruf berikutnya. Contoh: <strong class="text-blue-700 text-lg">الشَّمْسُ</strong> (Asy-Syamsu).</p>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-blue-500">
+                                    <strong class="text-blue-900 text-lg block">Mad Asli / Thabi'i</strong>
+                                    <p class="text-slate-700 text-base mt-1 leading-relaxed">Dibaca panjang 2 harakat saat ada Alif mati setelah fathah, Ya mati setelah kasrah, atau Wawu mati setelah dhommah.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Content Card: SIFAT ALLAH -->
+            <div id="content-sifat-allah" class="content-block hidden bg-white rounded-3xl p-6 md:p-8 shadow-lg border-2 border-emerald-100">
+                <div class="flex items-center space-x-4 mb-6">
+                    <span class="text-4xl">✨</span>
+                    <div>
+                        <h3 class="text-3xl font-bold text-emerald-800">Sifat Wajib & Mustahil Allah</h3>
+                        <p class="text-base text-slate-500 font-medium">Mengenal keagungan Allah SWT lewat sifat-sifat mulia-Nya</p>
+                    </div>
+                </div>
+
+
+                <div class="bg-yellow-50 text-yellow-900 p-5 rounded-2xl border-2 border-yellow-200 text-lg mb-6 leading-relaxed">
+                    💡 <strong>Tips LCC Zidni:</strong> 
+                    <br>• Sifat <strong class="text-emerald-700">Wajib</strong> adalah sifat yang pasti dimiliki Allah SWT.
+                    <br>• Sifat <strong class="text-rose-700">Mustahil</strong> adalah kebalikan dari sifat wajib (tidak mungkin dimiliki Allah SWT).
+                </div>
+
+
+                <!-- 20 Sifat Table Grid -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border-2 border-slate-150 rounded-2xl overflow-hidden shadow-sm">
+                        <div class="bg-emerald-600 text-white p-4 text-center font-bold text-xl">Sifat Wajib (Pasti Ada)</div>
+                        <div class="divide-y-2 divide-slate-100 bg-white text-base md:text-lg" id="sifat-wajib-list">
+                            <!-- Dynamic inject -->
+                        </div>
+                    </div>
+                    <div class="border-2 border-slate-150 rounded-2xl overflow-hidden shadow-sm">
+                        <div class="bg-rose-600 text-white p-4 text-center font-bold text-xl">Sifat Mustahil (Tidak Mungkin)</div>
+                        <div class="divide-y-2 divide-slate-100 bg-white text-base md:text-lg" id="sifat-mustahil-list">
+                            <!-- Dynamic inject -->
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Page Navigation for Sifat -->
+                <div class="flex justify-center items-center space-x-4 mt-8">
+                    <button onclick="renderSifatTable(1)" id="btn-sifat-p1" class="px-6 py-3 rounded-2xl font-bold bg-emerald-500 text-white text-base transition transform hover:-translate-y-0.5 shadow-md">Sifat 1 - 10</button>
+                    <button onclick="renderSifatTable(2)" id="btn-sifat-p2" class="px-6 py-3 rounded-2xl font-bold bg-slate-200 text-slate-700 text-base transition transform hover:-translate-y-0.5 shadow-md">Sifat 11 - 20</button>
+                </div>
+            </div>
+
+
+            <!-- Content Card: MUKJIZAT NABI -->
+            <div id="content-mukjizat" class="content-block hidden bg-white rounded-3xl p-6 md:p-8 shadow-lg border-2 border-emerald-100">
+                <div class="flex items-center space-x-4 mb-6">
+                    <span class="text-4xl">🐪</span>
+                    <div>
+                        <h3 class="text-3xl font-bold text-emerald-800">Nabi dan Mukjizatnya</h3>
+                        <p class="text-base text-slate-500 font-medium">Kekuatan luar biasa para Rasul atas izin Allah SWT</p>
+                    </div>
+                </div>
+
+
+                <div class="space-y-6 text-lg">
+                    <!-- Highlighted Ulul Azmi -->
+                    <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-6 text-white shadow-md">
+                        <h4 class="font-bold text-2xl mb-3 flex items-center">
+                            <span class="text-2xl mr-2">⭐</span> Nabi-Nabi Ulul Azmi (MIMIN)
+                        </h4>
+                        <p class="text-base text-emerald-100 mb-6 leading-relaxed">Nabi yang memiliki kesabaran dan ketabahan luar biasa beserta mukjizat utamanya:</p>
+                        
+                        <div class="grid gap-4 text-base md:text-lg">
+                            <div class="bg-white/10 p-4 rounded-xl border border-white/10">
+                                <strong class="text-yellow-200">1. Nabi Nuh AS:</strong> Menyelamatkan kaum beriman dengan kapal raksasa (Bahtera) saat banjir bandang yang maha dahsyat.
+                            </div>
+                            <div class="bg-white/10 p-4 rounded-xl border border-white/10">
+                                <strong class="text-yellow-200">2. Nabi Ibrahim AS:</strong> Tubuhnya tetap utuh, segar, dan tidak mempan dibakar oleh api Raja Namrud.
+                            </div>
+                            <div class="bg-white/10 p-4 rounded-xl border border-white/10">
+                                <strong class="text-yellow-200">3. Nabi Musa AS:</strong> Memiliki tongkat ajaib yang bisa membelah Laut Merah dan berubah menjadi ular besar untuk melawan penyihir Fir'aun.
+                            </div>
+                            <div class="bg-white/10 p-4 rounded-xl border border-white/10">
+                                <strong class="text-yellow-200">4. Nabi Isa AS:</strong> Dapat berbicara sewaktu masih bayi di ayunan, menyembuhkan penyakit kusta, membuat burung hidup dari tanah liat, serta menghidupkan orang mati.
+                            </div>
+                            <div class="bg-white/10 p-4 rounded-xl border border-white/10">
+                                <strong class="text-yellow-200">5. Nabi Muhammad SAW:</strong> Kitab suci Al-Qur'an (mukjizat terbesar), peristiwa luar biasa Isra' Mi'raj, membelah bulan, serta memancarkan air dari sela-sela jarinya.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Nabi lainnya yang sering keluar di LCC -->
+                    <div class="bg-amber-50 rounded-3xl p-6 border-2 border-amber-200 space-y-4">
+                        <h4 class="font-bold text-amber-950 text-xl border-b pb-2 border-amber-200">Nabi Lain yang Wajib Dihafal Zidni</h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-base md:text-lg">
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-amber-100">
+                                <span class="font-bold text-amber-800 block text-lg">Nabi Adam AS</span>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Manusia pertama di bumi, diajarkan oleh Allah nama-nama benda di seluruh alam semesta.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-amber-100">
+                                <span class="font-bold text-amber-800 block text-lg">Nabi Yusuf AS</span>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Dianugerahi ketampanan yang sangat luar biasa dan keahlian tinggi menafsirkan mimpi secara tepat.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-amber-100">
+                                <span class="font-bold text-amber-800 block text-lg">Nabi Sulaiman AS</span>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Bisa berkomunikasi dengan hewan (semut, burung), memerintah bangsa jin, serta menundukkan angin.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-amber-100">
+                                <span class="font-bold text-amber-800 block text-lg">Nabi Dawud AS</span>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Dapat melunakkan besi yang keras hanya dengan tangan kosong, serta dianugerahi suara termerdu di dunia.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-amber-100">
+                                <span class="font-bold text-amber-800 block text-lg">Nabi Yunus AS</span>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Selamat dan bertahan hidup di dalam perut ikan paus raksasa selama berhari-hari dengan terus berzikir.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-amber-100">
+                                <span class="font-bold text-amber-800 block text-lg">Nabi Ismail AS</span>
+                                <p class="text-slate-700 text-base mt-1 leading-relaxed">Menghentakkan kaki memunculkan air Zam-zam, dan tubuhnya digantikan domba surga saat hendak disembelih.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Content Card: MALAIKAT -->
+            <div id="content-malaikat" class="content-block hidden bg-white rounded-3xl p-6 md:p-8 shadow-lg border-2 border-emerald-100">
+                <div class="flex items-center space-x-4 mb-6">
+                    <span class="text-4xl">👼</span>
+                    <div>
+                        <h3 class="text-3xl font-bold text-emerald-800">10 Malaikat & Tugasnya</h3>
+                        <p class="text-base text-slate-500 font-medium">Menghafal nama-nama Malaikat Allah beserta tugas penting mereka</p>
+                    </div>
+                </div>
+
+
+                <div class="grid sm:grid-cols-2 gap-6 text-base md:text-lg">
+                    <!-- Malaikat Cards -->
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">1</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Jibril</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Menyampaikan wahyu dari Allah kepada para Nabi dan Rasul.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">2</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Mikail</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Membagikan rezeki kepada makhluk hidup serta mengatur hujan dan cuaca.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">3</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Israfil</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Meniup sangkakala (tanda datangnya kiamat dan kebangkitan).</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">4</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Izrail</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Mencabut nyawa seluruh makhluk hidup atas ketetapan Allah.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">5</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Munkar</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Menanyai amal perbuatan buruk manusia di alam kubur.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">6</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Nakir</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Menanyai amal perbuatan baik manusia di alam kubur.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">7</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Raqib</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Mencatat amal kebaikan manusia selama hidup di dunia.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">8</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Atid</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Mencatat amal buruk / kejahatan manusia selama hidup di dunia.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">9</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Malik</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Menjaga pintu Neraka dengan tegas, kuat, dan disiplin.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start bg-emerald-50 p-5 rounded-2xl border-2 border-emerald-100 shadow-sm">
+                        <div class="bg-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg mr-4 flex-shrink-0">10</div>
+                        <div>
+                            <strong class="text-emerald-900 block text-xl">Malaikat Ridwan</strong>
+                            <p class="text-slate-700 text-base mt-1 leading-relaxed">Menjaga pintu Surga dengan penuh ramah-tamah dan kegembiraan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+
+        <!-- ================= TAB KUIS INTERAKTIF (10 PAKET x 20 SOAL) ================= -->
+        <section id="tab-content-kuis" class="hidden space-y-6">
+            
+            <!-- Quiz Configuration -->
+            <div id="quiz-config-card" class="bg-white rounded-3xl p-6 md:p-8 shadow-lg border-2 border-emerald-100 text-center">
+                <span class="text-5xl">🎮</span>
+                <h3 class="text-3xl font-bold text-emerald-800 mt-4 mb-2">10 Paket Kuis LCC Spesial</h3>
+                <p class="text-base text-slate-500 mb-8">Setiap paket berisi **20 soal campuran**. Tanpa batas waktu pengerjaan pusing!</p>
+
+
+                <!-- 10 Packets Grid Selection -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left mb-6">
+                    <!-- Paket 1 s/d 10 Buttons -->
+                    <button onclick="startSpecificPacket(1)" class="p-5 rounded-2xl border-2 border-emerald-500 hover:bg-emerald-50/50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-emerald-600 bg-emerald-100 rounded-xl px-3 py-1">01</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-emerald-900">Kuis Paket 1</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                    <button onclick="startSpecificPacket(2)" class="p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-slate-50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-slate-600 bg-slate-100 rounded-xl px-3 py-1">02</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-slate-800">Kuis Paket 2</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                    <button onclick="startSpecificPacket(3)" class="p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-slate-50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-slate-600 bg-slate-100 rounded-xl px-3 py-1">03</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-slate-800">Kuis Paket 3</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                    <button onclick="startSpecificPacket(4)" class="p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-slate-50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-slate-600 bg-slate-100 rounded-xl px-3 py-1">04</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-slate-800">Kuis Paket 4</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                    <button onclick="startSpecificPacket(5)" class="p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-slate-50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-slate-600 bg-slate-100 rounded-xl px-3 py-1">05</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-slate-800">Kuis Paket 5</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                    <button onclick="startSpecificPacket(6)" class="p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-slate-50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-slate-600 bg-slate-100 rounded-xl px-3 py-1">06</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-slate-800">Kuis Paket 6</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                    <button onclick="startSpecificPacket(7)" class="p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-slate-50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-slate-600 bg-slate-100 rounded-xl px-3 py-1">07</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-slate-800">Kuis Paket 7</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                    <button onclick="startSpecificPacket(8)" class="p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-slate-50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-slate-600 bg-slate-100 rounded-xl px-3 py-1">08</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-slate-800">Kuis Paket 8</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                    <button onclick="startSpecificPacket(9)" class="p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-slate-50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-slate-600 bg-slate-100 rounded-xl px-3 py-1">09</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-slate-800">Kuis Paket 9</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                    <button onclick="startSpecificPacket(10)" class="p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-slate-50 transition flex items-center space-x-4">
+                        <span class="text-3xl font-bold text-slate-600 bg-slate-100 rounded-xl px-3 py-1">10</span>
+                        <div>
+                            <strong class="block font-kids text-lg text-slate-800">Kuis Paket 10</strong>
+                            <p class="text-sm text-slate-500">20 Soal Campuran PAI</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- Active Quiz Panel -->
+            <div id="quiz-active-panel" class="hidden bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-emerald-500 relative">
+                <!-- Header Kuis -->
+                <div class="flex justify-between items-center mb-6 pb-3 border-b-2 border-slate-100">
+                    <span id="quiz-progress-text" class="text-sm md:text-base font-bold text-emerald-700 uppercase tracking-wider">SOAL 1 DARI 20</span>
+                    <span class="bg-yellow-100 text-yellow-800 text-xs md:text-sm font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-hourglass-half mr-1"></i> Santai & Berpikir Teliti</span>
+                </div>
+
+
+                <!-- Soal -->
+                <div class="mb-6">
+                    <span id="quiz-category-badge" class="bg-emerald-100 text-emerald-800 text-xs md:text-sm font-bold px-3 py-1 rounded-full uppercase">Kategori</span>
+                    <h4 id="quiz-question" class="text-xl md:text-2xl font-bold text-slate-800 mt-4 leading-relaxed">Memuat Pertanyaan...</h4>
+                </div>
+
+
+                <!-- Jawaban -->
+                <div class="grid gap-4" id="quiz-options-container">
+                    <!-- Dynamic inject of buttons -->
+                </div>
+
+
+                <!-- Penjelasan Instan Pasca Jawab -->
+                <div id="quiz-explanation-box" class="hidden mt-6 p-5 rounded-2xl border-2 text-base leading-relaxed transition">
+                    <p id="quiz-explanation-text"></p>
+                </div>
+
+
+                <!-- Next Button -->
+                <div class="mt-8 flex justify-end">
+                    <button id="quiz-next-btn" onclick="nextQuestion()" disabled class="bg-slate-300 text-slate-500 px-8 py-3 rounded-2xl font-bold flex items-center space-x-2 transition cursor-not-allowed text-lg">
+                        <span>Soal Berikutnya</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- Quiz Score Result Panel -->
+            <div id="quiz-result-panel" class="hidden bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-yellow-400 text-center relative overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-48 h-48 bg-yellow-100 rounded-full opacity-30"></div>
+                
+                <h3 class="text-4xl font-bold text-emerald-800 mb-2 font-kids">Kuis Paket Selesai! 🎉</h3>
+                <p class="text-slate-500 text-lg mb-8">Zidni telah menyelesaikan 20 soal dengan luar biasa teliti!</p>
+
+
+                <!-- Score Circle -->
+                <div class="w-40 h-40 bg-gradient-to-tr from-emerald-500 to-emerald-600 rounded-full mx-auto flex flex-col justify-center items-center text-white shadow-lg border-4 border-white mb-8">
+                    <span class="text-xs uppercase tracking-wider font-bold text-emerald-100">Nilai</span>
+                    <span id="result-score" class="text-6xl font-black">100</span>
+                    <span id="result-ratio" class="text-sm text-emerald-100 mt-1">20 / 20 Benar</span>
+                </div>
+
+
+                <!-- Star Rating -->
+                <div class="flex justify-center space-x-2 text-4xl text-slate-300 mb-8" id="result-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+
+
+                <p id="result-commentary" class="font-bold text-emerald-800 text-xl mb-8 max-w-lg mx-auto">Nilai Sempurna! Zidni siap juara LCC!</p>
+
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="restartCurrentQuiz()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg px-8 py-3.5 rounded-2xl transition shadow-md btn-bounce">
+                        <i class="fa-solid fa-rotate-left mr-2"></i> Ulangi Paket Ini
+                    </button>
+                    <button onclick="resetToQuizConfig()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-lg px-8 py-3.5 rounded-2xl transition shadow-md btn-bounce">
+                        <i class="fa-solid fa-house mr-2"></i> Pilih Paket Lain
+                    </button>
+                </div>
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-sm text-slate-400 max-w-4xl mx-auto w-full px-4 border-t border-slate-200 mt-12">
+        <p>© 2026 Sahabat LCC Zidni • Sukses Selalu untuk Zidni!</p>
+    </footer>
+
+
+    <!-- Audio Synth Utility & Database Code -->
+    <script>
+        // 1. SOUND SYSTEM ENGINE (Self-contained AudioContext Synth)
+        let isSoundEnabled = true;
+        let audioCtx = null;
+
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+
+        function toggleSound() {
+            isSoundEnabled = !isSoundEnabled;
+            const icon = document.getElementById('soundIcon');
+            const btn = document.getElementById('soundToggle');
+            if (isSoundEnabled) {
+                icon.className = "fa-solid fa-volume-high";
+                btn.innerHTML = `<i class="fa-solid fa-volume-high"></i> <span class="hidden md:inline font-bold">Suara: On</span>`;
+                btn.className = "bg-emerald-700 hover:bg-emerald-800 transition px-4 py-2 rounded-full text-sm flex items-center space-x-2 border border-emerald-500";
+            } else {
+                icon.className = "fa-solid fa-volume-xmark";
+                btn.innerHTML = `<i class="fa-solid fa-volume-xmark"></i> <span class="hidden md:inline font-bold">Suara: Off</span>`;
+                btn.className = "bg-rose-700 hover:bg-rose-800 transition px-4 py-2 rounded-full text-sm flex items-center space-x-2 border border-rose-500";
+            }
+        }
+
+
+        function playSynthSound(type) {
+            if (!isSoundEnabled) return;
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+
+            const now = audioCtx.currentTime;
+
+
+            if (type === 'correct') {
+                // Happy high double beep
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'incorrect') {
+                // Low buzzer
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(100, now + 0.4);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } else if (type === 'win') {
+                // Arpeggio triumph
+                const notes = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
+                notes.forEach((freq, index) => {
+                    const localOsc = audioCtx.createOscillator();
+                    const localGain = audioCtx.createGain();
+                    localOsc.connect(localGain);
+                    localGain.connect(audioCtx.destination);
+                    localOsc.type = 'sine';
+                    localOsc.frequency.setValueAtTime(freq, now + (index * 0.12));
+                    localGain.gain.setValueAtTime(0.15, now + (index * 0.12));
+                    localGain.gain.exponentialRampToValueAtTime(0.01, now + (index * 0.12) + 0.4);
+                    localOsc.start(now + (index * 0.12));
+                    localOsc.stop(now + (index * 0.12) + 0.45);
+                });
+            }
+        }
+
+
+        // 2. DATA: Sifat 20 Allah (Wajib & Mustahil)
+        const SIFAT_DATA = [
+            { id: 1, wajib: "Wujud", artiWajib: "Ada", mustahil: "'Adam", artiMustahil: "Tiada" },
+            { id: 2, wajib: "Qidam", artiWajib: "Terdahulu / Awal", mustahil: "Huduts", artiMustahil: "Baru" },
+            { id: 3, wajib: "Baqo'", artiWajib: "Kekal", mustahil: "Fana'", artiMustahil: "Hancur / Binasa" },
+            { id: 4, wajib: "Mukholafatu lil hawaditsi", artiWajib: "Berbeda dengan makhluk", mustahil: "Mumatsalatu lil hawaditsi", artiMustahil: "Sama seperti makhluk" },
+            { id: 5, wajib: "Qiyamuhu binafsihi", artiWajib: "Berdiri sendiri", mustahil: "Ihtiyaju lighayrihi", artiMustahil: "Butuh bantuan lainnya" },
+            { id: 6, wajib: "Wahdaniyah", artiWajib: "Maha Esa / Satu", mustahil: "Ta'addud", artiMustahil: "Berbilang / Lebih dari satu" },
+            { id: 7, wajib: "Qudrot", artiWajib: "Kuasa", mustahil: "'Ajzun", artiMustahil: "Lemah" },
+            { id: 8, wajib: "Irodat", artiWajib: "Berkehendak", mustahil: "Karohah", artiMustahil: "Terpaksa" },
+            { id: 9, wajib: "'Ilmun", artiWajib: "Mengetahui", mustahil: "Jahlun", artiMustahil: "Bodoh" },
+            { id: 10, wajib: "Hayat", artiWajib: "Hidup", mustahil: "Maut", artiMustahil: "Mati" },
+            { id: 11, wajib: "Sama'", artiWajib: "Mendengar", mustahil: "Shomam", artiMustahil: "Tuli" },
+            { id: 12, wajib: "Basar", artiWajib: "Melihat", mustahil: "'Amaa", artiMustahil: "Buta" },
+            { id: 13, wajib: "Kalam", artiWajib: "Berfirman / Berbicara", mustahil: "Bukmun", artiMustahil: "Bisu" },
+            { id: 14, wajib: "Qadiran", artiWajib: "Keadaan-Nya yang Maha Kuasa", mustahil: "Kaunuhu 'Ajizan", artiMustahil: "Keadaan-Nya yang lemah" },
+            { id: 15, wajib: "Muridan", artiWajib: "Keadaan-Nya yang Maha Berkehendak", mustahil: "Kaunuhu Mukrahan", artiMustahil: "Keadaan-Nya yang terpaksa" },
+            { id: 16, wajib: "'Aliman", artiWajib: "Keadaan-Nya yang Maha Mengetahui", mustahil: "Kaunuhu Jahilan", artiMustahil: "Keadaan-Nya yang bodoh" },
+            { id: 17, wajib: "Hayyan", artiWajib: "Keadaan-Nya yang Maha Hidup", mustahil: "Kaunuhu Mayyitan", artiMustahil: "Keadaan-Nya yang mati" },
+            { id: 18, wajib: "Sami'an", artiWajib: "Keadaan-Nya yang Maha Mendengar", mustahil: "Kaunuhu Ashamma", artiMustahil: "Keadaan-Nya yang tuli" },
+            { id: 19, wajib: "Basiran", artiWajib: "Keadaan-Nya yang Maha Melihat", mustahil: "Kaunuhu A'ma", artiMustahil: "Keadaan-Nya yang buta" },
+            { id: 20, wajib: "Mutakalliman", artiWajib: "Keadaan-Nya yang Maha Berbicara", mustahil: "Kaunuhu Abkama", artiMustahil: "Keadaan-Nya yang bisu" }
+        ];
+
+
+        // Render Sifat 20 into study table with large paddings & borders
+        function renderSifatTable(page) {
+            const wajibContainer = document.getElementById('sifat-wajib-list');
+            const mustahilContainer = document.getElementById('sifat-mustahil-list');
+            
+            wajibContainer.innerHTML = '';
+            mustahilContainer.innerHTML = '';
+
+
+            const startIdx = (page - 1) * 10;
+            const endIdx = startIdx + 10;
+            const pageData = SIFAT_DATA.slice(startIdx, endIdx);
+
+
+            pageData.forEach(item => {
+                // Sifat Wajib
+                wajibContainer.innerHTML += `
+                    <div class="flex justify-between items-center p-4 hover:bg-emerald-50 transition">
+                        <span class="font-bold text-slate-800"><span class="text-sm text-slate-400 mr-2">${item.id}.</span> ${item.wajib}</span>
+                        <span class="text-sm bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold">${item.artiWajib}</span>
+                    </div>
+                `;
+                // Sifat Mustahil
+                mustahilContainer.innerHTML += `
+                    <div class="flex justify-between items-center p-4 hover:bg-rose-50 transition">
+                        <span class="font-bold text-slate-800"><span class="text-sm text-slate-400 mr-2">${item.id}.</span> ${item.mustahil}</span>
+                        <span class="text-sm bg-rose-100 text-rose-800 px-3 py-1 rounded-full font-bold">${item.artiMustahil}</span>
+                    </div>
+                `;
+            });
+
+
+            // Set buttons styling active
+            const btnP1 = document.getElementById('btn-sifat-p1');
+            const btnP2 = document.getElementById('btn-sifat-p2');
+            if (page === 1) {
+                btnP1.className = "px-6 py-3 rounded-2xl font-bold bg-emerald-500 text-white text-base shadow-md";
+                btnP2.className = "px-6 py-3 rounded-2xl font-bold bg-slate-200 text-slate-700 text-base shadow-sm hover:bg-slate-350";
+            } else {
+                btnP1.className = "px-6 py-3 rounded-2xl font-bold bg-slate-200 text-slate-700 text-base shadow-sm hover:bg-slate-350";
+                btnP2.className = "px-6 py-3 rounded-2xl font-bold bg-emerald-500 text-white text-base shadow-md";
+            }
+        }
+
+
+        // Initialize table
+        renderSifatTable(1);
+
+
+
+
+        // 3. DATABASE PERTANYAAN KUIS LCC (10 Paket x 20 Soal = 200 Soal)
+        const ALL_PACKETS = {
+            1: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Jika ada Nun mati (نْ) bertemu dengan huruf ب, maka hukum bacaannya disebut...", options: ["Ikhfa Haqiqi", "Izhar Halqi", "Iqlab", "Idgham Bighunnah"], correct: 2, exp: "Iqlab berarti mengubah bunyi nun sukun menjadi mim saat bertemu dengan huruf ب." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf Alif Lam (ال) pada kata الْجَنَّةُ harus dibaca dengan jelas. Hukum tajwid ini disebut...", options: ["Alif Lam Syamsiyah", "Alif Lam Qomariyah", "Izhar Syafawi", "Ikhfa Haqiqi"], correct: 1, exp: "Alif Lam Qomariyah dibaca secara jelas tanpa melebur." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Kalimat مَنْ يَعْمَلْ mengandung hukum bacaan...", options: ["Izhar Halqi", "Idgham Bighunnah", "Iqlab", "Ikhfa Haqiqi"], correct: 1, exp: "Nun mati bertemu huruf ي, dibaca melebur disertai dengungan." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Ada berapa huruf Izhar Halqi?", options: ["4 Huruf", "6 Huruf", "15 Huruf", "2 Huruf"], correct: 1, exp: "Ada 6 huruf: Hamzah (ا), Ha (ح), Kha (خ), 'Ain (ع), Ghain (غ), dan Ha' (هـ)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Apabila Mim mati (مْ) bertemu huruf ب, hukum tajwidnya adalah...", options: ["Ikhfa Syafawi", "Idgham Mimi", "Izhar Syafawi", "Iqlab"], correct: 0, exp: "Mim mati bertemu huruf ب disebut Ikhfa Syafawi, dibaca samar di bibir dengan mendengung." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Wujud memiliki arti...", options: ["Ada", "Terdahulu", "Kekal", "Berdiri Sendiri"], correct: 0, exp: "Wujud artinya Maha Ada. Kebalikannya adalah 'Adam (tidak ada)." },
+                { categoryLabel: "✨ Sifat Allah", q: "Kebalikan dari Sifat wajib Baqo' (Kekal) adalah...", options: ["Fana'", "'Adam", "Huduts", "Maut"], correct: 0, exp: "Fana' artinya binasa/hancur, tidak mungkin dimiliki oleh Allah SWT." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Mukholafatu lil hawaditsi berarti...", options: ["Berdiri Sendiri", "Berbeda dengan makhluk", "Maha Esa", "Maha Kuasa"], correct: 1, exp: "Allah pasti berbeda dengan apa saja yang baru/makhluk ciptaan-Nya." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah mustahil memiliki sifat Jahlun. Arti Jahlun adalah...", options: ["Lemah", "Terpaksa", "Bodoh", "Mati"], correct: 2, exp: "Jahlun berarti bodoh. Allah wajib bersifat 'Ilmun (Maha Mengetahui)." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Qiyamuhu binafsihi berarti...", options: ["Kekal", "Berdiri Sendiri", "Terdahulu", "Maha Esa"], correct: 1, exp: "Allah mandiri dan tidak memerlukan bantuan apa pun dari ciptaan-Nya." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Siapakah nama nabi yang selamat dan utuh sewaktu dibakar hidup-hidup oleh Raja Namrud?", options: ["Nabi Musa AS", "Nabi Ibrahim AS", "Nabi Isa AS", "Nabi Nuh AS"], correct: 1, exp: "Nabi Ibrahim AS diselamatkan Allah dengan mukjizat mengubah api menjadi dingin." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Tongkat yang membelah Laut Merah merupakan mukjizat utama Nabi...", options: ["Nabi Musa AS", "Nabi Isa AS", "Nabi Yusuf AS", "Nabi Sulaiman AS"], correct: 0, exp: "Nabi Musa membelah Laut Merah dengan tongkatnya untuk menyelamatkan Bani Israil dari kejaran Fir'aun." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang memiliki kemampuan berbicara dengan hewan dan menguasai jin adalah...", options: ["Nabi Dawud AS", "Nabi Sulaiman AS", "Nabi Yusuf AS", "Nabi Ibrahim AS"], correct: 1, exp: "Nabi Sulaiman AS diberi kekuasaan istimewa atas angin, hewan, dan jin." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Singkatan 'MIMIN' merupakan cara mudah mengingat Nabi Ulul Azmi, yaitu...", options: ["Musa, Ismail, Muhammad, Ibrahim, Nuh", "Musa, Isa, Muhammad, Ibrahim, Nuh", "Musa, Isa, Muhammad, Idris, Nuh", "Musa, Ismail, Masyhud, Ibrahim, Nuh"], correct: 1, exp: "MIMIN: Musa, Isa, Muhammad, Ibrahim, Nuh." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Kitab suci Al-Qur'an adalah mukjizat terbesar yang diberikan kepada...", options: ["Nabi Muhammad SAW", "Nabi Isa AS", "Nabi Musa AS", "Nabi Dawud AS"], correct: 0, exp: "Al-Qur'an merupakan mukjizat terbesar dan paling abadi milik Nabi Muhammad SAW." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas menyampaikan wahyu kepada Nabi dan Rasul adalah...", options: ["Malaikat Mikail", "Malaikat Jibril", "Malaikat Israfil", "Malaikat Ridwan"], correct: 1, exp: "Malaikat Jibril bertugas sebagai utusan Allah menyampaikan wahyu kesucian." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Membagikan rezeki kepada semua makhluk hidup merupakan tugas penting Malaikat...", options: ["Malaikat Jibril", "Malaikat Mikail", "Malaikat Izrail", "Malaikat Raqib"], correct: 1, exp: "Malaikat Mikail mengelola pembagian rezeki, tumbuh-tumbuhan, hujan, dan cuaca." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas meniup sangkakala tanda tibanya hari kiamat adalah...", options: ["Malaikat Israfil", "Malaikat Izrail", "Malaikat Munkar", "Malaikat Malik"], correct: 0, exp: "Malaikat Israfil adalah peniup terompet sangkakala atas perintah Allah SWT." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat Izrail memegang tugas utama untuk...", options: ["Menjaga pintu Neraka", "Mencabut nyawa makhluk", "Mencatat kebaikan", "Menanyai di alam kubur"], correct: 1, exp: "Izrail adalah malaikat maut yang bertugas mencabut nyawa seluruh makhluk hidup." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Menanyai amalan baik dan buruk manusia saat berada di alam kubur dilakukan oleh...", options: ["Raqib dan Atid", "Munkar dan Nakir", "Malik dan Ridwan", "Jibril dan Mikail"], correct: 1, exp: "Munkar dan Nakir menanyai keimanan dan amalan manusia di liang kubur." }
+            ],
+            2: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Hukum membaca lafal مِنْ رَبِّهِمْ secara melebur tanpa mendengung disebut...", options: ["Idgham Bighunnah", "Idgham Bilaghunnah", "Izhar Halqi", "Iqlab"], correct: 1, exp: "Nun mati bertemu Ra (ر) adalah Idgham Bilaghunnah." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf Alif Lam pada lafal الشَّمْسُ dileburkan langsung ke huruf Syin. Ini disebut...", options: ["Alif Lam Qomariyah", "Alif Lam Syamsiyah", "Izhar Syafawi", "Mad Thabi'i"], correct: 1, exp: "Alif Lam Syamsiyah ditandai dengan tasydid di huruf setelah lam." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Hukum bacaan yang terjadi jika ada Nun mati/tanwin bertemu salah satu huruf ي, ن, م, و adalah...", options: ["Idgham Bilaghunnah", "Idgham Bighunnah", "Ikhfa Haqiqi", "Iqlab"], correct: 1, exp: "Keempat huruf tersebut terkumpul dalam lafal yanmu (يَنْمُو)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Contoh bacaan Iqlab di bawah ini yang paling tepat adalah...", options: ["مِنْ بَعْدِ", "مَنْ آمَنَ", "مِنْ رَبِّهِمْ", "مَنْ يَقُوْلُ"], correct: 0, exp: "Nun mati bertemu Ba (ب) pada kalimat Min-ba'di berubah suara menjadi Mim (مْ)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Apabila Mim mati (مْ) bertemu dengan sesama huruf Mim (م), maka hukum tajwidnya dinamakan...", options: ["Izhar Syafawi", "Idgham Mimi", "Ikhfa Syafawi", "Iqlab"], correct: 1, exp: "Pertemuan Mim mati dengan Mim disebut Idgham Mimi atau Idgham Mutamasilain." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Qidam berarti bahwa Allah itu...", options: ["Kekal", "Terdahulu", "Ada", "Berbeda"], correct: 1, exp: "Qidam berarti terdahulu tanpa permulaan. Kebalikannya adalah Huduts (baru)." },
+                { categoryLabel: "✨ Sifat Allah", q: "Kebalikan dari sifat wajib Wahdaniyah (Maha Esa) adalah...", options: ["Ta'addud", "Fana'", "'Adam", "Huduts"], correct: 0, exp: "Ta'addud artinya berbilang (lebih dari satu), mustahil bagi Allah SWT." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Qudrot memiliki arti...", options: ["Berkehendak", "Kuasa", "Mendengar", "Melihat"], correct: 1, exp: "Qudrot artinya Kuasa. Kebalikan mustahilnya adalah 'Ajzun (lemah)." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah tidak mungkin terpaksa dalam menentukan sesuatu karena Allah memiliki sifat wajib...", options: ["Kalam", "Irodat", "Sama'", "Basar"], correct: 1, exp: "Irodat artinya Maha Berkehendak. Mustahil bagi Allah bersifat Karohah (terpaksa)." },
+                { categoryLabel: "✨ Sifat Allah", q: "Mautun adalah sifat mustahil Allah yang berarti mati. Sifat wajib Allah pasangannya adalah...", options: ["Hayat", "'Ilmun", "Kalam", "Sama'"], correct: 0, exp: "Hayat artinya hidup. Allah Maha Hidup selamanya." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Menafsirkan mimpi raja dan dianugerahi wajah yang sangat tampan adalah kelebihan Nabi...", options: ["Nabi Yusuf AS", "Nabi Ismail AS", "Nabi Yunus AS", "Nabi Isa AS"], correct: 0, exp: "Nabi Yusuf AS dikenal karena ketampanan spiritual/fisik dan karunia takwil mimpi." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang dianugerahi suara yang sangat merdu dan mampu melunakkan besi keras adalah...", options: ["Nabi Sulaiman AS", "Nabi Dawud AS", "Nabi Yusuf AS", "Nabi Yunus AS"], correct: 1, exp: "Nabi Dawud AS melunakkan besi baja dengan tangan untuk membuat baju zirah pelindung." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Siapa nabi yang bertahan hidup di dalam perut ikan paus raksasa dalam waktu lama?", options: ["Nabi Yunus AS", "Nabi Hud AS", "Nabi Nuh AS", "Nabi Luth AS"], correct: 0, exp: "Nabi Yunus AS diselamatkan di dalam perut ikan besar berkat keikhlasan zikirnya." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Kapal raksasa yang menyelamatkan orang-orang beriman dari banjir bah adalah buatan...", options: ["Nabi Nuh AS", "Nabi Ibrahim AS", "Nabi Musa AS", "Nabi Muhammad SAW"], correct: 0, exp: "Nabi Nuh membuat bahtera raksasa atas perintah Allah untuk menghindari banjir besar." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang memunculkan mata air Zam-zam murni setelah menghentakkan kakinya adalah...", options: ["Nabi Ismail AS", "Nabi Ibrahim AS", "Nabi Ishaq AS", "Nabi Yusuf AS"], correct: 0, exp: "Kaki bayi Nabi Ismail menghentakkan tanah gersang hingga memancar air zam-zam." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Siapakah nama malaikat yang ditugasi menjaga kedamaian pintu Surga?", options: ["Malaikat Ridwan", "Malaikat Malik", "Malaikat Jibril", "Malaikat Mikail"], correct: 0, exp: "Malaikat Ridwan menjaga surga dengan keindahan dan keramahtamahan." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas mengawasi dan menjaga gerbang Neraka adalah...", options: ["Malaikat Ridwan", "Malaikat Malik", "Malaikat Atid", "Malaikat Munkar"], correct: 1, exp: "Malaikat Malik bertugas menjaga gerbang neraka dengan ketegasan." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Amal kebaikan sekecil apa pun yang kita perbuat di dunia dicatat oleh Malaikat...", options: ["Malaikat Raqib", "Malaikat Atid", "Malaikat Mikail", "Malaikat Jibril"], correct: 0, exp: "Malaikat Raqib setia mencatat setiap perkataan dan perbuatan baik kita." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang mencatat perbuatan buruk / dosa manusia adalah...", options: ["Malaikat Raqib", "Malaikat Atid", "Malaikat Izrail", "Malaikat Malik"], correct: 1, exp: "Malaikat Atid bertugas khusus mencatat perbuatan dosa dan jahat." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Berapa jumlah Malaikat yang wajib diimani oleh setiap umat Muslim?", options: ["5 Malaikat", "10 Malaikat", "20 Malaikat", "25 Malaikat"], correct: 1, exp: "Ada 10 Malaikat wajib yang harus kita ketahui nama beserta tugasnya." }
+            ],
+            3: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Lafal مَنْ خَشِيَ mengandung hukum bacaan...", options: ["Izhar Halqi", "Ikhfa Haqiqi", "Iqlab", "Idgham Bighunnah"], correct: 0, exp: "Nun mati bertemu dengan Kha (خ) dibaca jelas tanpa dengung." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Hukum tajwid apabila ada Nun mati/tanwin bertemu dengan huruf yang bukan Izhar, Idgham, maupun Iqlab dinamakan...", options: ["Mad Asli", "Ikhfa Haqiqi", "Izhar Syafawi", "Alif Lam Syamsiyah"], correct: 1, exp: "Ikhfa Haqiqi dibaca samar dengan 15 huruf hijaiyah sisa." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Jika Mim mati (مْ) bertemu huruf selain Mim dan Ba, dibaca jelas. Hukum ini disebut...", options: ["Izhar Syafawi", "Ikhfa Syafawi", "Idgham Mimi", "Izhar Halqi"], correct: 0, exp: "Izhar Syafawi dibaca jelas tanpa mendengung di bibir." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Alif Lam pada kata الْحَمْدُ dibaca jelas karena bertemu huruf Ha (ح). Ini dinamakan...", options: ["Alif Lam Syamsiyah", "Alif Lam Qomariyah", "Izhar Halqi", "Mad Thabi'i"], correct: 1, exp: "Sebab huruf Ha (ح) merupakan salah satu huruf Alif Lam Qomariyah." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf Mad Asli/Thabi'i terdiri atas huruf...", options: ["ا, و, ي", "ب, ت, ث", "ر, ل, م", "ا, هـ, ع"], correct: 0, exp: "Huruf Mad Thabi'i ada 3, yaitu Alif, Wawu, dan Ya." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib 'Ilmun memiliki makna...", options: ["Melihat", "Mendengar", "Mengetahui", "Berbicara"], correct: 2, exp: "'Ilmun berarti Maha Mengetahui segala sesuatu." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah mustahil bersifat Al-Mumatsalatu lil hawaditsi yang artinya...", options: ["Lemah", "Sama dengan makhluk", "Terpaksa", "Tiada"], correct: 1, exp: "Sama dengan makhluk merupakan kemustahilan bagi keagungan Allah." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah Maha Hidup dan tidak pernah tidur maupun mati. Sifat wajib ini disebut...", options: ["Kalam", "Hayat", "Sama'", "Basar"], correct: 1, exp: "Hayat artinya Hidup secara abadi." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Sama' berarti...", options: ["Melihat", "Mendengar", "Berbicara", "Kekal"], correct: 1, exp: "Sama' artinya mendengar setiap bunyi maupun bisikan hati." },
+                { categoryLabel: "✨ Sifat Allah", q: "Kebalikan dari sifat wajib Basar (Melihat) adalah sifat mustahil...", options: ["Shomam", "'Amaa", "Bukmun", "Jahlun"], correct: 1, exp: "'Amaa artinya Buta, yang merupakan mustahil bagi Allah SWT." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang lahir tanpa ayah dan bisa menghidupkan tanah liat berbentuk burung atas izin Allah adalah...", options: ["Nabi Isa AS", "Nabi Musa AS", "Nabi Ibrahim AS", "Nabi Muhammad SAW"], correct: 0, exp: "Nabi Isa AS dilahirkan oleh Ibunda Maryam tanpa perantara ayah." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Hewan yang menyerupai naga/ular besar dari tongkat Nabi Musa melahap sihir Fir'aun. Nabi Musa diutus melawan raja...", options: ["Raja Namrud", "Raja Fir'aun", "Raja Jalut", "Raja Abrahah"], correct: 1, exp: "Nabi Musa AS diutus Allah SWT untuk mendakwahi Raja Fir'aun di Mesir." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi Ibrahim diuji oleh Allah dengan perintah yang amat berat untuk menyembelih putranya yang bernama...", options: ["Nabi Ismail AS", "Nabi Ishaq AS", "Nabi Ya'qub AS", "Nabi Yusuf AS"], correct: 0, exp: "Ujian kesabaran Nabi Ibrahim menyembelih Ismail digantikan seekor kibas/domba." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang memiliki mukjizat berupa tubuh yang sangat sabar menghadapi cobaan penyakit kulit menahun adalah...", options: ["Nabi Ayyub AS", "Nabi Yusuf AS", "Nabi Yunus AS", "Nabi Adam AS"], correct: 0, exp: "Nabi Ayyub AS diuji berat lewat hilangnya harta, keluarga, dan penyakit kulit, namun tetap bersyukur." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Peristiwa perjalanan kilat satu malam Nabi Muhammad dari Masjidil Haram ke Masjidil Aqsa lalu ke langit disebut...", options: ["Nuzulul Qur'an", "Hijrah", "Isra' Mi'raj", "Fathul Makkah"], correct: 2, exp: "Isra' Mi'raj menghasilkan perintah ibadah wajib salat lima waktu." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas menanyai orang di alam kubur adalah...", options: ["Munkar dan Nakir", "Raqib dan Atid", "Malik dan Ridwan", "Jibril dan Mikail"], correct: 0, exp: "Munkar dan Nakir mendatangi jasad manusia di alam barzakh." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Ketika Zidni menyisihkan uang sakunya untuk kotak amal masjid, dicatat oleh Malaikat...", options: ["Malaikat Raqib", "Malaikat Atid", "Malaikat Ridwan", "Malaikat Jibril"], correct: 0, exp: "Amal sedekah dicatat dengan penuh kemuliaan oleh Malaikat Raqib." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Siapakah malaikat yang dijuluki malaikat maut?", options: ["Malaikat Israfil", "Malaikat Izrail", "Malaikat Malik", "Malaikat Munkar"], correct: 1, exp: "Malaikat Izrail bertugas merenggut nyawa seluruh makhluk bernyawa." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat diciptakan oleh Allah dari...", options: ["Cahaya (Nur)", "Api (Nar)", "Tanah Liat", "Angin"], correct: 0, exp: "Malaikat terbuat dari cahaya (nur), jin dari api, dan manusia dari tanah." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas menyampaikan rezeki dan hujan adalah...", options: ["Malaikat Mikail", "Malaikat Jibril", "Malaikat Israfil", "Malaikat Ridwan"], correct: 0, exp: "Malaikat Mikail bertugas penuh membagikan rezeki dari Allah." }
+            ],
+            4: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Bila ada huruf Nun mati/tanwin bertemu huruf ل atau ر, dibaca lebur tanpa dengung. Hukumnya...", options: ["Idgham Bighunnah", "Idgham Bilaghunnah", "Ikhfa Haqiqi", "Iqlab"], correct: 1, exp: "Contoh: Mil-ladunka, Mir-rabbihim." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Kata النَّاسُ mengandung hukum bacaan Alif Lam...", options: ["Syamsiyah", "Qomariyah", "Mimi", "Syafawi"], correct: 0, exp: "Huruf lam melebur langsung ke huruf Nun bertasydid." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Bagaimana suara bacaan Ikhfa Haqiqi ketika dibaca?", options: ["Jelas dan tegas", "Samar-samar mendengung", "Melebur tanpa dengung", "Berubah menjadi M"], correct: 1, exp: "Ikhfa artinya menyamarkan suara bacaan nun mati/tanwin." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Contoh bacaan Izhar Halqi yang benar adalah...", options: ["مِنْ خَوْفٍ", "مِنْ بَعْدِ", "مَنْ يَقُوْلُ", "مِنْ رَبِّهِمْ"], correct: 0, exp: "Sebab nun sukun bertemu huruf Kha (خ)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf Ba (ب) dalam hukum Nun mati/tanwin merupakan huruf dari...", options: ["Izhar", "Idgham", "Iqlab", "Ikhfa"], correct: 2, exp: "Satu-satunya huruf hukum Iqlab adalah Ba (ب)." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah Maha Esa dan tidak beranak maupun diperanakkan. Ini membuktikan sifat wajib...", options: ["Wahdaniyah", "Wujud", "Qidam", "Baqo'"], correct: 0, exp: "Wahdaniyah berarti Esa / Satu." },
+                { categoryLabel: "✨ Sifat Allah", q: "Kebalikan dari Sifat wajib 'Ilmun (Mengetahui) adalah sifat mustahil...", options: ["Jahlun", "'Ajzun", "Karohah", "Maut"], correct: 0, exp: "Jahlun berarti Bodoh, tidak mungkin dimiliki oleh Yang Maha Pencipta." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Kalam memiliki arti...", options: ["Melihat", "Mendengar", "Berfirman / Berbicara", "Kuasa"], correct: 2, exp: "Kalam artinya berfirman. Bukti nyata berupa adanya kitab-kitab suci." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat mustahil Bukmun memiliki arti...", options: ["Bisu", "Buta", "Tuli", "Bodoh"], correct: 0, exp: "Bukmun adalah kebalikan dari sifat wajib Kalam." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Basar berarti Allah Maha...", options: ["Melihat", "Mendengar", "Berbicara", "Kuasa"], correct: 0, exp: "Basar artinya Allah melihat segala sesuatu meskipun tersembunyi." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Manakah mukjizat luar biasa Nabi Ibrahim AS?", options: ["Mengubah tongkat jadi ular", "Tubuhnya dingin saat dibakar api", "Membelah laut merah", "Dapat membuat baju besi"], correct: 1, exp: "Api Namrud berubah menjadi dingin menyelamatkan Nabi Ibrahim." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang diberi tugas mulia memelihara Kakbah pertama kali bersama ayahnya Ibrahim adalah...", options: ["Nabi Ismail AS", "Nabi Ishaq AS", "Nabi Ya'qub AS", "Nabi Yusuf AS"], correct: 0, exp: "Nabi Ismail membangun dan merawat Kakbah bersama Nabi Ibrahim." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Ikan paus memuntahkan kembali Nabi Yunus di tepi pantai dalam kondisi selamat berkat zikirnya. Lafal zikir Nabi Yunus adalah...", options: ["Subhanallah", "Lailaha illa Anta subhanaka inni kuntu minaz zolimin", "Alhamdulillah", "Allahu Akbar"], correct: 1, exp: "Zikir legendaris di dalam kegelapan perut ikan paus." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Siapa nama manusia pertama yang diciptakan Allah dan diajarkan nama benda?", options: ["Nabi Adam AS", "Nabi Idris AS", "Nabi Nuh AS", "Nabi Ibrahim AS"], correct: 0, exp: "Nabi Adam AS adalah bapak seluruh umat manusia (Abul Basyar)." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Mukjizat Nabi Muhammad membelah bulan terjadi untuk membuktikan kenabiannya kepada kaum...", options: ["Quraisy Musyrik", "Bani Israil", "Kaum Ad", "Kaum Tsamud"], correct: 0, exp: "Bulan terbelah atas kebesaran Allah menjawab tantangan kafir Quraisy." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Siapakah malaikat yang bertugas mencatat keburukan/maksiat manusia?", options: ["Malaikat Raqib", "Malaikat Atid", "Malaikat Malik", "Malaikat Ridwan"], correct: 1, exp: "Malaikat Atid mencatat amal buruk." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat Ridwan bertugas menjaga...", options: ["Pintu Neraka", "Pintu Surga", "Alam Kubur", "Arsy Allah"], correct: 1, exp: "Ridwan bertugas menjaga Surga tempat orang beriman." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat Malik bertugas menjaga...", options: ["Pintu Neraka", "Pintu Surga", "Bumi", "Langit"], correct: 1, exp: "Malik bertugas sebagai penjaga neraka." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat adalah makhluk Allah yang selalu...", options: ["Membangkang", "Taat dan patuh", "Lupa", "Tidur"], correct: 1, exp: "Malaikat diciptakan tanpa hawa nafsu sehingga selalu taat kepada Allah." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Sangkakala ditiup untuk membangkitkan manusia dari kubur pada tiupan kedua oleh Malaikat...", options: ["Malaikat Israfil", "Malaikat Izrail", "Malaikat Jibril", "Malaikat Mikail"], correct: 0, exp: "Malaikat Israfil bertugas meniup sangkakala." }
+            ],
+            5: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf-huruf di bawah ini yang merupakan huruf Ikhfa Haqiqi adalah...", options: ["ت , ث , ج , د", "ي , ن , م , و", "ا , ح , خ , ع", "ل , ر"], correct: 0, exp: "T, ts, j, d termasuk dari 15 huruf Ikhfa Haqiqi." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Hukum membaca lafal مَنْ آمَنَ secara jelas karena Nun mati bertemu ا (Alif) dinamakan...", options: ["Izhar Halqi", "Ikhfa Haqiqi", "Iqlab", "Idgham Bighunnah"], correct: 0, exp: "Hamzah/Alif adalah huruf Izhar." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Mim mati bertemu huruf م dinamakan Idgham Mimi. Nama lain hukum tajwid ini adalah...", options: ["Idgham Bilaghunnah", "Idgham Mutamasilain", "Ikhfa Syafawi", "Izhar Syafawi"], correct: 1, exp: "Disebut Mutamasilain karena bertemunya dua huruf yang sama makhraj dan sifatnya." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Bagaimana cara membaca hukum bacaan Alif Lam Syamsiyah?", options: ["Jelas dan terang", "Melebur ke huruf berikutnya", "Mendengung panjang", "Samar di kerongkongan"], correct: 1, exp: "Bunyi 'Al' tidak dibaca, melainkan langsung masuk ke huruf berikutnya." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Manakah contoh bacaan Alif Lam Qomariyah yang tepat?", options: ["النَّاسُ", "الْكِتَابُ", "الرَّحْمَنُ", "الشَّمْسُ"], correct: 1, exp: "Huruf Kaf (ك) merupakan huruf Alif Lam Qomariyah sehingga dibaca jelas." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Allah Mukholafatu lil hawaditsi merupakan kebalikan dari sifat mustahil...", options: ["Mumatsalatu lil hawaditsi", "Ihtiyaju lighayrihi", "Ta'addud", "'Ajzun"], correct: 0, exp: "Mumatsalah artinya serupa/sama dengan makhluk." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah Maha Mengetahui segala rahasia di dunia dan akhirat karena Allah memiliki sifat wajib...", options: ["'Ilmun", "Basar", "Sama'", "Hayat"], correct: 0, exp: "Sifat 'Ilmun membuktikan pengetahuan Allah tak terbatas." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah mustahil bersifat Karohah. Karohah berarti...", options: ["Lemah", "Terpaksa", "Bodoh", "Mati"], correct: 1, exp: "Karohah artinya terpaksa. Kehendak Allah (Irodat) mutlak terjadi." },
+                { categoryLabel: "✨ Sifat Allah", q: "Kebalikan dari sifat wajib Sama' (Mendengar) adalah sifat mustahil...", options: ["Shomam", "Bukmun", "'Amaa", "Maut"], correct: 0, exp: "Shomam artinya tuli, mustahil bagi Allah SWT." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Baqo' menyatakan bahwa Allah itu...", options: ["Ada", "Terdahulu", "Kekal", "Berdiri Sendiri"], correct: 2, exp: "Baqo' berarti kekal selamanya dan tidak akan pernah hancur." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi Musa dibantu oleh saudaranya yang fasih berbicara dalam berdakwah kepada Fir'aun, yaitu...", options: ["Nabi Harun AS", "Nabi Yusuf AS", "Nabi Syu'aib AS", "Nabi Khidir AS"], correct: 0, exp: "Nabi Harun AS adalah saudara sekaligus rekan dakwah Nabi Musa AS." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Kapal kayu Nabi Nuh mendarat setelah banjir surut di sebuah bukit bernama...", options: ["Bukit Judi", "Bukit Shofa", "Bukit Tursina", "Gunung Uhud"], correct: 0, exp: "Kapal Nabi Nuh berlabuh dengan selamat di atas Bukit Judi (Jabal Judi)." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang diuji kesabarannya ketika iblis menghancurkan seluruh kebun, ternak, dan anaknya wafat adalah...", options: ["Nabi Ayyub AS", "Nabi Ibrahim AS", "Nabi Ismail AS", "Nabi Yusuf AS"], correct: 0, exp: "Nabi Ayyub AS melewati seluruh cobaan dengan sabar luar biasa." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Zabur merupakan kitab suci yang diwahyukan kepada Nabi...", options: ["Nabi Dawud AS", "Nabi Musa AS", "Nabi Isa AS", "Nabi Muhammad SAW"], correct: 0, exp: "Nabi Dawud AS menerima wahyu berupa kitab suci Zabur." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Mukjizat memancarkan air dari sela jemari untuk minum seluruh pasukan muslim dimiliki oleh...", options: ["Nabi Muhammad SAW", "Nabi Musa AS", "Nabi Isa AS", "Nabi Sulaiman AS"], correct: 0, exp: "Mukjizat fisik mulia Nabi Muhammad SAW saat kekurangan air dalam perjalanan." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Siapakah malaikat yang mendampingi Nabi Muhammad dalam peristiwa Isra' Mi'raj?", options: ["Malaikat Jibril", "Malaikat Mikail", "Malaikat Israfil", "Malaikat Izrail"], correct: 0, exp: "Malaikat Jibril setia mendampingi Rasulullah naik ke Sidratul Muntaha." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Tugas utama Malaikat Munkar dan Nakir di alam barzakh berkaitan dengan...", options: ["Menanyai jasad manusia", "Menyiksa di neraka", "Mencatat kebaikan", "Menyiram hujan"], correct: 0, exp: "Mereka mengajukan pertanyaan seputar tuhan, nabi, dan kiblat." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Ketika Zidni tidak berkata jujur, perbuatan tersebut dicatat oleh Malaikat...", options: ["Malaikat Atid", "Malaikat Raqib", "Malaikat Malik", "Malaikat Izrail"], correct: 0, exp: "Atid bertugas mencatat dosa / perbuatan buruk." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang meniup sangkakala sebanyak tiga kali saat hari akhir adalah...", options: ["Malaikat Israfil", "Malaikat Izrail", "Malaikat Mikail", "Malaikat Jibril"], correct: 0, exp: "Israfil bertugas sebagai peniup sangkakala." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang menjaga surga disebut...", options: ["Malaikat Ridwan", "Malaikat Malik", "Malaikat Raqib", "Malaikat Atid"], correct: 0, exp: "Ridwan menyambut penduduk surga dengan senyuman." }
+            ],
+            6: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Nun sukun bertemu dengan huruf ل dibaca secara...", options: ["Melebur tanpa mendengung", "Melebur dengan mendengung", "Jelas tanpa dengung", "Samar-samar"], correct: 0, exp: "Sebab bertemu huruf ل (Idgham Bilaghunnah)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Lafal تَرْمِيْهِمْ بِحِجَارَةٍ mengandung hukum bacaan...", options: ["Ikhfa Syafawi", "Idgham Mimi", "Izhar Syafawi", "Izhar Halqi"], correct: 0, exp: "Mim mati bertemu huruf Ba (ب)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf Alif Lam pada kata الْقَمَرُ dinamakan Alif Lam Qomariyah. Di bawah ini huruf Qomariyah adalah...", options: ["ق", "ش", "ر", "د"], correct: 0, exp: "Huruf Qof (ق) adalah huruf Alif Lam Qomariyah." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Apabila ada dhommah diikuti huruf Wawu sukun (وْ), hukum bacannya disebut...", options: ["Mad Asli / Thabi'i", "Izhar Halqi", "Iqlab", "Ikhfa Haqiqi"], correct: 0, exp: "Merupakan syarat terbentuknya mad thabi'i." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Lafal مَنْ نَّشَاءُ memiliki hukum bacaan...", options: ["Idgham Bighunnah", "Idgham Bilaghunnah", "Izhar Halqi", "Iqlab"], correct: 0, exp: "Nun mati bertemu huruf Nun (ن) yang ber-tasydid." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat mustahil 'Ajzun berarti Lemah. Sifat wajib Allah yang bertentangan dengan 'Ajzun adalah...", options: ["Qudrot", "Irodat", "'Ilmun", "Hayat"], correct: 0, exp: "Qudrot artinya Maha Kuasa, mustahil bersifat lemah." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Qiyamuhu binafsihi merupakan kebalikan dari sifat mustahil...", options: ["Ihtiyaju lighayrihi", "Mumatsalah", "Ta'addud", "Fana'"], correct: 0, exp: "Ihtiyaj artinya memerlukan bantuan yang lain." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Allah Wahdaniyah membuktikan bahwa Allah...", options: ["Maha Esa", "Maha Hidup", "Maha Melihat", "Maha Kuasa"], correct: 0, exp: "Wahdaniyah artinya Tunggal / Esa / Satu." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat mustahil Huduts memiliki arti...", options: ["Baru / Ada permulaan", "Mati", "Bisu", "Tiada"], correct: 0, exp: "Huduts artinya baru, mustahil bagi Allah yang Maha Awal (Qidam)." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah berkuasa atas segala nasib makhluk karena Allah memiliki sifat wajib...", options: ["Irodat", "Qudrot", "'Ilmun", "Kalam"], correct: 1, exp: "Qudrot membuktikan kekuasaan mutlak Allah SWT." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Dua nabi bergelar Ulul Azmi yang hidup pada masa yang berbeda namun bersaudara sepupu dekat adalah...", options: ["Nabi Musa AS & Nabi Isa AS", "Nabi Yahya AS & Nabi Isa AS", "Nabi Ismail AS & Nabi Ishaq AS", "Nabi Yusuf AS & Nabi Bunyamin AS"], correct: 1, exp: "Nabi Yahya dan Nabi Isa adalah sepupu (ibu mereka bersaudara kandung)." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Mukjizat Nabi Sulaiman yang luar biasa saat memindahkan istana Ratu Balqis dibantu oleh...", options: ["Pasukan Jin & Manusia Berilmu", "Malaikat Jibril", "Nabi Dawud AS", "Burung Hud-hud saja"], correct: 0, exp: "Istana dipindahkan dalam sekejap mata atas kehendak Allah." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Mukjizat membelah laut menggunakan tongkat diberikan kepada nabi...", options: ["Nabi Musa AS", "Nabi Harun AS", "Nabi Isa AS", "Nabi Nuh AS"], correct: 0, exp: "Mukjizat penumpas kekejaman tentara Fir'aun." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang memiliki mukjizat air susu memancar dari jarinya sewaktu kecil adalah nabi...", options: ["Nabi Muhammad SAW", "Nabi Ibrahim AS", "Nabi Ismail AS", "Nabi Yusuf AS"], correct: 0, exp: "Berkah istimewa masa kecil Nabi Muhammad SAW." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Siapakah nama istri Nabi Ibrahim yang melahirkan Nabi Ismail AS?", options: ["Siti Hajar", "Siti Sarah", "Siti Aminah", "Siti Khadijah"], correct: 0, exp: "Siti Hajar adalah ibunda dari Nabi Ismail AS." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas membagi curah hujan ke bumi adalah...", options: ["Malaikat Mikail", "Malaikat Jibril", "Malaikat Israfil", "Malaikat Izrail"], correct: 0, exp: "Mikail mengatur peredaran hujan dan angin." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas menyambut orang beriman di pintu surga dengan salam kedamaian adalah...", options: ["Malaikat Ridwan", "Malaikat Malik", "Malaikat Jibril", "Malaikat Raqib"], correct: 0, exp: "Ridwan menyambut dengan sangat ramah." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Ruh manusia setelah meninggal dunia akan diuji di alam kubur oleh...", options: ["Munkar dan Nakir", "Raqib dan Atid", "Malik dan Ridwan", "Mikail dan Izrail"], correct: 0, exp: "Pertanyaan kubur wajib dijawab setiap mukmin." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas sebagai penjaga wahyu adalah...", options: ["Malaikat Jibril", "Malaikat Mikail", "Malaikat Israfil", "Malaikat Izrail"], correct: 0, exp: "Jibril dipercaya mengemban tugas wahyu mulia." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Seluruh Malaikat diciptakan Allah tanpa memiliki...", options: ["Hawa Nafsu", "Sayap", "Kekuatan", "Tugas"], correct: 0, exp: "Karena tidak berhawa nafsu, malaikat tidak pernah berbuat maksiat." }
+            ],
+            7: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Bila Nun mati bertemu dengan huruf ط, maka hukum bacaannya adalah...", options: ["Ikhfa Haqiqi", "Izhar Halqi", "Iqlab", "Idgham Bighunnah"], correct: 0, exp: "Huruf ط termasuk salah satu dari 15 huruf Ikhfa Haqiqi." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Hukum bacaan Alif Lam Syamsiyah terdapat pada kata...", options: ["الرَّحْمَنُ", "الْحَمْدُ", "الْقَارِعَةُ", "الْيَوْمُ"], correct: 0, exp: "Sebab huruf Ra (ر) bertasydid dan lam-nya tidak dibaca jelas." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Suara Mim mati dibaca jelas saat bertemu huruf selain م dan ب. Ini disebut...", options: ["Izhar Syafawi", "Ikhfa Syafawi", "Idgham Mimi", "Izhar Halqi"], correct: 0, exp: "Izhar Syafawi dibaca jelas tanpa dengung di bibir." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf hukum Iqlab hanya ada satu, yaitu...", options: ["ب", "ن", "م", "و"], correct: 0, exp: "Hanya huruf Ba (ب) yang memicu suara iqlab." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Bagaimana cara membaca hukum bacaan Idgham Bilaghunnah?", options: ["Melebur tanpa mendengung", "Melebur disertai dengung", "Samar-samar mendengung", "Jelas tanpa dengung"], correct: 0, exp: "Suara nun sukun langsung dilebur ke huruf ل atau ر tanpa dengung." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Allah Basar memiliki makna...", options: ["Allah Maha Melihat", "Allah Maha Mendengar", "Allah Maha Berkehendak", "Allah Maha Hidup"], correct: 0, exp: "Basar artinya melihat semua perbuatan makhluk-Nya." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat mustahil 'Adam mempunyai makna...", options: ["Tiada", "Lemah", "Bodoh", "Mati"], correct: 0, exp: "'Adam adalah kebalikan sifat wajib Wujud (Ada)." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah berfirman secara langsung tanpa alat bantu suara karena Allah bersifat wajib...", options: ["Kalam", "Sama'", "Basar", "Hayat"], correct: 0, exp: "Kalam artinya berfirman / berbicara." },
+                { categoryLabel: "✨ Sifat Allah", q: "Kebalikan dari sifat wajib Qidam (Terdahulu) adalah sifat mustahil...", options: ["Huduts", "Fana'", "'Adam", "Maut"], correct: 0, exp: "Huduts artinya baru atau berpermulaan." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Allah Irodat berarti...", options: ["Berkehendak", "Kuasa", "Mendengar", "Mengetahui"], correct: 0, exp: "Irodat berarti kehendak mutlak milik Allah SWT." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi Musa AS dibekali mukjizat berupa tangan yang bercahaya putih menyilaukan saat diletakkan di...", options: ["Ketiaknya", "Kepalanya", "Saku Bajunya", "Dahinya"], correct: 2, exp: "Mukjizat fisik tangan bercahaya putih saat ditarik dari saku baju." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang memiliki kesabaran tingkat tinggi ketika dituduh mencuri di Mesir padahal tidak bersalah adalah...", options: ["Nabi Yusuf AS", "Nabi Yakub AS", "Nabi Musa AS", "Nabi Harun AS"], correct: 0, exp: "Nabi Yusuf dijebak saudaranya namun tetap sabar dipenjara." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Kapal nabi Nuh dibuat dari kayu pohon raksasa yang beliau tanam sendiri selama...", options: ["Puluhan Tahun", "1 Tahun", "5 Bulan", "3 Hari"], correct: 0, exp: "Nabi Nuh menanam pohon jati raksasa selama bertahun-tahun sebelum merakit bahtera." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Dapat menghidupkan kembali burung tanah liat dengan ditiup merupakan mukjizat Nabi...", options: ["Nabi Isa AS", "Nabi Musa AS", "Nabi Ibrahim AS", "Nabi Dawud AS"], correct: 0, exp: "Nabi Isa membentuk tanah liat lalu meniupnya menjadi burung hidup atas izin Allah." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Perjalanan agung Isra' Mi'raj dialami oleh Nabi...", options: ["Nabi Muhammad SAW", "Nabi Isa AS", "Nabi Musa AS", "Nabi Sulaiman AS"], correct: 0, exp: "Perjalanan dari Makkah ke Palestina lalu ke Sidratul Muntaha." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas mengawasi dan mencatat perbuatan maksiat atau dosa adalah...", options: ["Malaikat Atid", "Malaikat Raqib", "Malaikat Malik", "Malaikat Ridwan"], correct: 0, exp: "Atid bertugas mencatat amal buruk." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Setiap amalan ibadah salat, mengaji, dan berbakti kepada orang tua akan dicatat oleh...", options: ["Malaikat Raqib", "Malaikat Atid", "Malaikat Ridwan", "Malaikat Jibril"], correct: 0, exp: "Raqib mencatat seluruh amal kebaikan." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Siapakah malaikat yang memimpin seluruh malaikat di langit dan bumi?", options: ["Malaikat Jibril", "Malaikat Mikail", "Malaikat Israfil", "Malaikat Izrail"], correct: 0, exp: "Jibril dikenal sebagai pimpinan para malaikat (Sayyidul Malaikat)." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas mencabut nyawa orang kafir dengan keras dan kasar adalah...", options: ["Malaikat Izrail", "Malaikat Israfil", "Malaikat Munkar", "Malaikat Malik"], correct: 0, exp: "Izrail mencabut nyawa sesuai dengan kualitas amalan orang tersebut." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Menjaga keindahan surga merupakan kehormatan tugas bagi Malaikat...", options: ["Malaikat Ridwan", "Malaikat Malik", "Malaikat Munkar", "Malaikat Nakir"], correct: 0, exp: "Ridwan adalah penjaga surga." }
+            ],
+            8: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Lafal مَنْ يَقُوْلُ mengandung hukum bacaan...", options: ["Idgham Bighunnah", "Idgham Bilaghunnah", "Izhar Halqi", "Iqlab"], correct: 0, exp: "Sebab Nun mati bertemu dengan huruf Ya (ي)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Alif Lam yang harus dibaca secara jelas dinamakan Alif Lam...", options: ["Qomariyah", "Syamsiyah", "Izhar", "Syafawi"], correct: 0, exp: "Qomariyah dibaca jelas (Idhar Qomariyah)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Mim mati bertemu huruf ب hukum tajwidnya adalah...", options: ["Ikhfa Syafawi", "Idgham Mimi", "Izhar Syafawi", "Iqlab"], correct: 0, exp: "Dibaca samar di bibir disertai dengungan." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf-huruf di bawah ini yang merupakan huruf Izhar Halqi adalah...", options: ["ا, ح, خ, ع, غ, هـ", "ي, ن, م, w", "ب", "ل, ر"], correct: 0, exp: "Enam huruf halqi (kerongkongan)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Contoh bacaan Idgham Bilaghunnah di bawah ini adalah...", options: ["مِنْ رَبِّهِمْ", "مَنْ آمَنَ", "مِنْ بَعْدِ", "مَنْ يَقُوْلُ"], correct: 0, exp: "Sebab nun sukun bertemu huruf Ra (ر)." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Allah Mukholafatu lil hawaditsi berarti...", options: ["Allah berbeda dengan makhluk-Nya", "Allah berdiri sendiri", "Allah Maha Esa", "Allah Maha Kuasa"], correct: 0, exp: "Allah mutlak berbeda dengan makhluk ciptaan-Nya." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Allah Wujud adalah kebalikan dari sifat mustahil...", options: ["'Adam", "Huduts", "Fana'", "Mumatsalah"], correct: 0, exp: "'Adam berarti tidak ada." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah mustahil bersifat Maut. Maut artinya...", options: ["Mati", "Lemah", "Bisu", "Tuli"], correct: 0, exp: "Allah Maha Hidup (Hayat) kekal abadi selamanya." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah Maha Esa / Tunggal merupakan kandungan dari sifat wajib...", options: ["Wahdaniyah", "Wujud", "Qidam", "Baqo'"], correct: 0, exp: "Wahdaniyah berarti Esa." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah tidak mungkin bodoh karena Allah memiliki sifat wajib 'Ilmun. Sifat mustahil pasangannya adalah...", options: ["Jahlun", "'Ajzun", "Karohah", "Shomam"], correct: 0, exp: "Jahlun berarti bodoh." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi Dawud AS dikaruniai suara merdu yang bahkan sanggup membuat burung-burung di udara...", options: ["Berhenti terbang & ikut bertasbih", "Terjatuh pingsan", "Berubah menjadi batu", "Terbang menjauh"], correct: 0, exp: "Kemerduan suara Nabi Dawud membuat alam dan burung ikut bersenandung tasbih." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi Yusuf AS dimasukkan ke dalam sumur oleh saudara-saudaranya karena rasa...", options: ["Iri dan Dengki", "Sayang", "Takut", "Hormat"], correct: 0, exp: "Saudara Nabi Yusuf iri karena nabi Yusuf paling disayang ayahnya." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Siapakah nama putra Nabi Nuh yang tenggelam karena durhaka dan membangkang?", options: ["Kan'an", "Sam", "Ham", "Yafet"], correct: 0, exp: "Kan'an menolak naik kapal Nabi Nuh dan hanyut tenggelam banjir." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang memiliki mukjizat bisa membelah bulan adalah...", options: ["Nabi Muhammad SAW", "Nabi Isa AS", "Nabi Musa AS", "Nabi Ibrahim AS"], correct: 0, exp: "Mukjizat agung Nabi Muhammad SAW atas pembangkangan kafir Quraisy." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Tongkat Nabi Musa berubah menjadi ular besar yang memakan habis ular mainan milik...", options: ["Penyihir Fir'aun", "Raja Namrud", "Tentara Abrahah", "Kaum Samud"], correct: 0, exp: "Menghancurkan tipu daya penyihir istana." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas meniup sangkakala sebanyak dua kali saat hari kiamat dan kebangkitan adalah...", options: ["Malaikat Israfil", "Malaikat Izrail", "Malaikat Jibril", "Malaikat Malik"], correct: 0, exp: "Israfil adalah ditiupkannya sangkakala." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang mencatat setiap amal kebaikan manusia di bumi adalah...", options: ["Malaikat Raqib", "Malaikat Atid", "Malaikat Jibril", "Malaikat Mikail"], correct: 0, exp: "Raqib mencatat kebaikan." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang mencatat setiap amal keburukan / maksiat manusia adalah...", options: ["Malaikat Atid", "Malaikat Raqib", "Malaikat Malik", "Malaikat Ridwan"], correct: 0, exp: "Atid mencatat dosa." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Siapa malaikat yang bertugas menjaga surga dengan ramah?", options: ["Malaikat Ridwan", "Malaikat Malik", "Malaikat Jibril", "Malaikat Mikail"], correct: 0, exp: "Ridwan menjaga pintu surga." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Siapa malaikat yang bertugas menjaga neraka dengan tegas?", options: ["Malaikat Malik", "Malaikat Ridwan", "Malaikat Jibril", "Malaikat Mikail"], correct: 0, exp: "Malik menjaga pintu neraka." }
+            ],
+            9: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Apabila ada Nun mati bertemu huruf ب, dibaca sengau menyerupai suara م. Ini hukum...", options: ["Iqlab", "Izhar Halqi", "Ikhfa Haqiqi", "Idgham Bighunnah"], correct: 0, exp: "Contoh: Mim-ba'di." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Contoh lafal Alif Lam Syamsiyah yang tepat di bawah ini adalah...", options: ["النَّاسُ", "الْقَمَرُ", "الْجَنَّةُ", "الْحَمْدُ"], correct: 0, exp: "Huruf Nun (ن) bertasydid." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Bila Mim mati bertemu huruf selain م dan ب, cara membacanya harus...", options: ["Jelas dan terang", "Samar-samar dengung", "Melebur", "Berubah menjadi N"], correct: 0, exp: "Ini merupakan hukum Izhar Syafawi." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf-huruf Idgham Bighunnah dirangkum dalam lafal...", options: ["يَنْمُو", "حَلْقِي", "يَرْمُلُوْنَ", "إِظْهَارْ"], correct: 0, exp: "Yanmu (ي, ن, م, و) adalah huruf Idgham Bighunnah." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Bila ada Nun mati bertemu dengan huruf ف, maka dibaca...", options: ["Samar-samar", "Jelas", "Melebur", "Sengau"], correct: 0, exp: "Sebab huruf ف termasuk huruf Ikhfa Haqiqi." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Qiyamuhu binafsihi menyatakan bahwa Allah...", options: ["Berdiri Sendiri", "Ada", "Kekal", "Satu"], correct: 0, exp: "Allah tidak membutuhkan makhluk-Nya." },
+                { categoryLabel: "✨ Sifat Allah", q: "Kebalikan dari sifat wajib Baqo' (Kekal) adalah sifat mustahil...", options: ["Fana'", "'Adam", "Huduts", "Jahlun"], correct: 0, exp: "Fana' artinya binasa." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Sama' memiliki arti...", options: ["Mendengar", "Melihat", "Berbicara", "Berkehendak"], correct: 0, exp: "Sama' artinya mendengar segala bunyi." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah mustahil bersifat Bukmun. Arti Bukmun adalah...", options: ["Bisu", "Buta", "Tuli", "Bodoh"], correct: 0, exp: "Bukmun adalah kebalikan sifat wajib Kalam." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah Maha Mengetahui segala sesuatu karena Allah memiliki sifat wajib...", options: ["'Ilmun", "Basar", "Sama'", "Hayat"], correct: 0, exp: "'Ilmun artinya mengetahui." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Siapakah nama nabi yang dianugerahi mukjizat tubuhnya tidak mempan dipotong saat digantikan domba surga?", options: ["Nabi Ismail AS", "Nabi Ibrahim AS", "Nabi Yusuf AS", "Nabi Ya'qub AS"], correct: 0, exp: "Nabi Ismail AS dengan keteguhan iman yang luar biasa." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang diperintahkan Allah mendirikan Kakbah kembali di Makkah adalah...", options: ["Nabi Ibrahim AS & Ismail AS", "Nabi Adam AS", "Nabi Nuh AS", "Nabi Musa AS"], correct: 0, exp: "Kerja sama agung ayah dan anak membina Kakbah." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang diselamatkan Allah dari sumur dan dijual sebagai budak sebelum menjadi menteri adalah...", options: ["Nabi Yusuf AS", "Nabi Yunus AS", "Nabi Dawud AS", "Nabi Sulaiman AS"], correct: 0, exp: "Kisah perjalanan hidup Nabi Yusuf AS." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi Muhammad SAW menerima wahyu Al-Qur'an pertama kali di...", options: ["Gua Hira", "Gua Tsur", "Masjidil Haram", "Madinah"], correct: 0, exp: "Gua Hira melalui perantara Malaikat Jibril." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang diutus Allah untuk menyadarkan kaum penyembah berhala milik Raja Namrud adalah...", options: ["Nabi Ibrahim AS", "Nabi Musa AS", "Nabi Nuh AS", "Nabi Isa AS"], correct: 0, exp: "Nabi Ibrahim menghancurkan berhala Namrud." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat Jibril memiliki nama lain di dalam Al-Qur'an, yaitu...", options: ["Ruhul Qudus", "Malaikat Maut", "Sayyidul Basyar", "Abul Basyar"], correct: 0, exp: "Ruhul Qudus atau Ruhul Amin adalah julukan kehormatan Jibril." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas menjaga ketertiban alam dan pembagian hujan adalah...", options: ["Malaikat Mikail", "Malaikat Jibril", "Malaikat Israfil", "Malaikat Izrail"], correct: 0, exp: "Mikail mengatur hujan dan cuaca." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Siapakah malaikat yang mendatangi kuburan orang mukmin untuk memberikan pertanyaan ramah?", options: ["Malaikat Nakir", "Malaikat Malik", "Malaikat Atid", "Malaikat Ridwan"], correct: 0, exp: "Munkar (pertanyaan buruk) dan Nakir (pertanyaan baik)." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Mencatat amalan perbuatan baik manusia adalah tugas mulia dari Malaikat...", options: ["Malaikat Raqib", "Malaikat Atid", "Malaikat Jibril", "Malaikat Mikail"], correct: 0, exp: "Raqib mencatat amal baik." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas meniup sangkakala kiamat adalah...", options: ["Malaikat Israfil", "Malaikat Izrail", "Malaikat Jibril", "Malaikat Mikail"], correct: 0, exp: "Israfil adalah ditiupkannya terompet kiamat." }
+            ],
+            10: [
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Lafal مِنْ رَبِّهِمْ mengandung hukum bacaan...", options: ["Idgham Bilaghunnah", "Idgham Bighunnah", "Izhar Halqi", "Iqlab"], correct: 0, exp: "Nun mati bertemu Ra (ر)." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Lafal الْجَنَّةُ mengandung hukum bacaan Alif Lam...", options: ["Qomariyah", "Syamsiyah", "Izhar Syafawi", "Mad Thabi'i"], correct: 0, exp: "Huruf Jim (ج) adalah huruf Qomariyah." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Hukum bacaan Mim mati bertemu huruf ب disebut...", options: ["Ikhfa Syafawi", "Idgham Mimi", "Izhar Syafawi", "Iqlab"], correct: 0, exp: "Dibaca samar di bibir dengan mendengung." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Huruf-huruf Izhar Halqi berjumlah...", options: ["6 Huruf", "4 Huruf", "15 Huruf", "2 Huruf"], correct: 0, exp: "ا, ح, kh, 'ain, ghain, ha." },
+                { categoryLabel: "🕌 Hukum Tajwid", q: "Apabila ada fathah diikuti Alif (ا), hukum bacaannya disebut...", options: ["Mad Asli / Thabi'i", "Izhar Halqi", "Iqlab", "Ikhfa Haqiqi"], correct: 0, exp: "Syarat mad thabi'i berbunyi panjang 2 harakat." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Allah Mukholafatu lil hawaditsi berarti...", options: ["Berbeda dengan makhluk", "Berdiri Sendiri", "Maha Esa", "Maha Kuasa"], correct: 0, exp: "Allah pasti berbeda dari apa pun di alam semesta." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Allah Wujud memiliki arti...", options: ["Ada", "Terdahulu", "Kekal", "Satu"], correct: 0, exp: "Wujud artinya Ada." },
+                { categoryLabel: "✨ Sifat Allah", q: "Kebalikan dari sifat wajib Allah Baqo' (Kekal) adalah...", options: ["Fana'", "'Adam", "Huduts", "Maut"], correct: 0, exp: "Fana' artinya binasa." },
+                { categoryLabel: "✨ Sifat Allah", q: "Sifat wajib Sama' berarti Allah Maha...", options: ["Mendengar", "Melihat", "Berbicara", "Kuasa"], correct: 0, exp: "Sama' artinya mendengar." },
+                { categoryLabel: "✨ Sifat Allah", q: "Allah mustahil bersifat Jahlun yang berarti...", options: ["Bodoh", "Lemah", "Bisu", "Mati"], correct: 0, exp: "Allah wajib bersifat 'Ilmun (Mengetahui)." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi Ibrahim dianugerahi ketabahan yang luar biasa sehingga bergelar...", options: ["Ulul Azmi", "Al-Amin", "Khalilullah", "Habibullah"], correct: 0, exp: "Ulul Azmi berarti nabi dengan kesabaran luar biasa." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang diselamatkan Allah di dalam perut ikan paus raksasa adalah...", options: ["Nabi Yunus AS", "Nabi Nuh AS", "Nabi Hud AS", "Nabi Yusuf AS"], correct: 0, exp: "Nabi Yunus AS selamat berkat zikir agungnya." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Siapakah nama nabi yang tongkatnya berubah menjadi ular besar?", options: ["Nabi Musa AS", "Nabi Isa AS", "Nabi Yusuf AS", "Nabi Sulaiman AS"], correct: 0, exp: "Nabi Musa melumpuhkan sihir Fir'aun." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Nabi yang dianugerahi suara termerdu dan melunakkan besi adalah...", options: ["Nabi Dawud AS", "Nabi Sulaiman AS", "Nabi Yusuf AS", "Nabi Isa AS"], correct: 0, exp: "Mukjizat agung Nabi Dawud AS." },
+                { categoryLabel: "🐪 Nabi & Mukjizatnya", q: "Burung tanah liat ditiup hidup kembali merupakan mukjizat nabi...", options: ["Nabi Isa AS", "Nabi Musa AS", "Nabi Ibrahim AS", "Nabi Muhammad SAW"], correct: 0, exp: "Mukjizat Nabi Isa AS atas izin Allah." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang ditugasi mengurus rezeki dan curah hujan di bumi adalah...", options: ["Malaikat Mikail", "Malaikat Jibril", "Malaikat Israfil", "Malaikat Izrail"], correct: 0, exp: "Mikail bertugas membagikan rezeki Allah." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas menyampaikan wahyu suci kepada para Nabi adalah...", options: ["Malaikat Jibril", "Malaikat Mikail", "Malaikat Israfil", "Malaikat Izrail"], correct: 0, exp: "Jibril adalah penyampai wahyu." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang bertugas menjaga surga dengan penuh kebahagiaan adalah...", options: ["Malaikat Ridwan", "Malaikat Malik", "Malaikat Raqib", "Malaikat Atid"], correct: 0, exp: "Ridwan adalah penjaga surga." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Amalan buruk sekecil apa pun yang kita kerjakan akan dicatat oleh Malaikat...", options: ["Malaikat Atid", "Malaikat Raqib", "Malaikat Malik", "Malaikat Ridwan"], correct: 0, exp: "Atid bertugas mencatat dosa." },
+                { categoryLabel: "👼 Malaikat & Tugasnya", q: "Malaikat yang memiliki julukan malaikat maut adalah...", options: ["Malaikat Izrail", "Malaikat Israfil", "Malaikat Jibril", "Malaikat Mikail"], correct: 0, exp: "Izrail bertugas mencabut nyawa." }
+            ]
+        };
+
+
+        // 4. TAB NAVIGATION CONTROLLER
+        function switchTab(tabId) {
+            const tabBelajar = document.getElementById('tab-belajar');
+            const tabKuis = document.getElementById('tab-kuis');
+            const contentBelajar = document.getElementById('tab-content-belajar');
+            const contentKuis = document.getElementById('tab-content-kuis');
+
+
+            if (tabId === 'belajar') {
+                tabBelajar.className = "flex-1 text-center py-4 font-kids text-xl font-bold border-b-4 border-emerald-500 text-emerald-700 transition";
+                tabKuis.className = "flex-1 text-center py-4 font-kids text-xl font-bold border-b-4 border-transparent text-slate-500 hover:text-emerald-600 transition";
+                contentBelajar.classList.remove('hidden');
+                contentKuis.classList.add('hidden');
+            } else {
+                tabKuis.className = "flex-1 text-center py-4 font-kids text-xl font-bold border-b-4 border-emerald-500 text-emerald-700 transition";
+                tabBelajar.className = "flex-1 text-center py-4 font-kids text-xl font-bold border-b-4 border-transparent text-slate-500 hover:text-emerald-600 transition";
+                contentKuis.classList.remove('hidden');
+                contentBelajar.classList.add('hidden');
+            }
+        }
+
+
+        function showCategory(catId) {
+            // Hide all content blocks
+            document.querySelectorAll('.content-block').forEach(block => {
+                block.classList.add('hidden');
+            });
+            // Show target
+            document.getElementById(`content-${catId}`).classList.remove('hidden');
+
+
+            // Set chip state
+            document.querySelectorAll('.chip-btn').forEach(btn => {
+                btn.className = "chip-btn bg-slate-200 text-slate-700 px-6 py-3.5 rounded-full font-bold text-base hover:bg-slate-300 transition flex items-center whitespace-nowrap";
+            });
+            document.getElementById(`chip-${catId}`).className = "chip-btn bg-emerald-600 text-white px-6 py-3.5 rounded-full font-bold text-base shadow-md flex items-center whitespace-nowrap";
+        }
+
+
+
+
+        // 5. KUIS GAME LOGIC ENGINE (TANPA TIMER, 20 SOAL PER PAKET)
+        let currentPacketNum = 1;
+        let currentQuestionsList = [];
+        let currentQuestionIdx = 0;
+        let score = 0;
+        let selectedOptionIdx = null;
+
+
+        function startSpecificPacket(packetNum) {
+            switchTab('kuis');
+            currentPacketNum = packetNum;
+            
+            // Get questions for the specific packet (contains exactly 20 questions)
+            const baseQuestions = ALL_PACKETS[packetNum];
+            
+            // Shuffle the 20 questions of this packet so it remains interesting
+            currentQuestionsList = shuffleArray([...baseQuestions]);
+
+
+            // Reset States
+            currentQuestionIdx = 0;
+            score = 0;
+            
+            // UI Panels Transition
+            document.getElementById('quiz-config-card').classList.add('hidden');
+            document.getElementById('quiz-result-panel').classList.add('hidden');
+            document.getElementById('quiz-active-panel').classList.remove('hidden');
+
+
+            loadQuestion();
+        }
+
+
+        function loadQuestion() {
+            selectedOptionIdx = null;
+            
+            const nextBtn = document.getElementById('quiz-next-btn');
+            nextBtn.disabled = true;
+            nextBtn.className = "bg-slate-300 text-slate-500 px-8 py-3 rounded-2xl font-bold flex items-center space-x-2 transition cursor-not-allowed text-lg";
+
+
+            document.getElementById('quiz-explanation-box').classList.add('hidden');
+
+
+            const currentQ = currentQuestionsList[currentQuestionIdx];
+
+
+            // Render progress & question
+            document.getElementById('quiz-progress-text').innerText = `PAKET ${currentPacketNum} • SOAL ${currentQuestionIdx + 1} DARI ${currentQuestionsList.length}`;
+            document.getElementById('quiz-category-badge').innerText = currentQ.categoryLabel;
+            document.getElementById('quiz-question').innerText = currentQ.q;
+
+
+            // Render options (Comfortable large interactive buttons)
+            const optContainer = document.getElementById('quiz-options-container');
+            optContainer.innerHTML = '';
+
+
+            currentQ.options.forEach((opt, idx) => {
+                optContainer.innerHTML += `
+                    <button onclick="selectOption(${idx})" id="opt-btn-${idx}" class="w-full text-left p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/20 font-bold text-lg transition flex items-center justify-between group">
+                        <span><strong class="mr-3 text-slate-400 group-hover:text-emerald-600 text-xl">${String.fromCharCode(65 + idx)}.</strong> ${opt}</span>
+                        <div class="w-7 h-7 rounded-full border-2 border-slate-300 flex items-center justify-center text-white text-sm group-hover:border-emerald-500" id="opt-check-${idx}"></div>
+                    </button>
+                `;
+            });
+        }
+
+
+        function selectOption(idx) {
+            if (selectedOptionIdx !== null) return; // Prevent double answer submission
+            
+            selectedOptionIdx = idx;
+            const currentQ = currentQuestionsList[currentQuestionIdx];
+            const isCorrect = (idx === currentQ.correct);
+
+
+            // Audio & Score
+            if (isCorrect) {
+                score++;
+                playSynthSound('correct');
+            } else {
+                playSynthSound('incorrect');
+            }
+
+
+            // Visual feedback for options
+            currentQ.options.forEach((_, optIdx) => {
+                const btn = document.getElementById(`opt-btn-${optIdx}`);
+                const check = document.getElementById(`opt-check-${optIdx}`);
+
+
+                btn.disabled = true;
+                btn.className = "w-full text-left p-5 rounded-2xl border-2 font-bold text-lg transition flex items-center justify-between";
+
+
+                if (optIdx === currentQ.correct) {
+                    // Correct answer highlights green
+                    btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+                    check.className = "w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-white text-sm";
+                    check.innerHTML = '<i class="fa-solid fa-check"></i>';
+                } else if (optIdx === idx) {
+                    // Wrong answer highlights red
+                    btn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900');
+                    check.className = "w-7 h-7 rounded-full bg-rose-500 flex items-center justify-center text-white text-sm";
+                    check.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                } else {
+                    // Unselected options go gray
+                    btn.classList.add('border-slate-100', 'bg-slate-50', 'text-slate-400');
+                }
+            });
+
+
+            // Display Explanation Box (Spacious fonts)
+            const expBox = document.getElementById('quiz-explanation-box');
+            const expText = document.getElementById('quiz-explanation-text');
+            expBox.classList.remove('hidden');
+            
+            if (isCorrect) {
+                expBox.className = "mt-6 p-5 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 text-emerald-900 text-lg font-medium";
+                expText.innerHTML = `<strong>Jawaban Benar! 🎉</strong> <br class="mb-1">${currentQ.exp}`;
+            } else {
+                expBox.className = "mt-6 p-5 rounded-2xl border-2 border-rose-200 bg-rose-50/50 text-rose-900 text-lg font-medium";
+                expText.innerHTML = `<strong>Kurang Tepat. Jawabannya: ${String.fromCharCode(65 + currentQ.correct)} 💡</strong> <br class="mb-1">${currentQ.exp}`;
+            }
+
+
+            enableNextButton();
+        }
+
+
+        function enableNextButton() {
+            const nextBtn = document.getElementById('quiz-next-btn');
+            nextBtn.disabled = false;
+            nextBtn.className = "bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-3 rounded-2xl font-bold flex items-center space-x-2 transition transform hover:-translate-y-0.5 active:translate-y-0 btn-bounce text-lg shadow-md";
+        }
+
+
+        function nextQuestion() {
+            currentQuestionIdx++;
+            if (currentQuestionIdx < currentQuestionsList.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+
+        function finishQuiz() {
+            document.getElementById('quiz-active-panel').classList.add('hidden');
+            document.getElementById('quiz-result-panel').classList.remove('hidden');
+
+
+            const scorePercent = Math.round((score / currentQuestionsList.length) * 100);
+            document.getElementById('result-score').innerText = scorePercent;
+            document.getElementById('result-ratio').innerText = `${score} / ${currentQuestionsList.length} Benar`;
+
+
+            // Setup stars and comments
+            const starsContainer = document.getElementById('result-stars');
+            let starsHTML = '';
+            let comment = '';
+
+
+            if (scorePercent === 100) {
+                starsHTML = '<i class="fa-solid fa-star text-yellow-400 animate-pulse mr-1"></i>'.repeat(3);
+                comment = "Luar Biasa Sempurna! Zidni Hebat Sekali! Siap menjadi bintang juara LCC! 🏆🥇🌟";
+                shootConfetti();
+            } else if (scorePercent >= 80) {
+                starsHTML = '<i class="fa-solid fa-star text-yellow-400 mr-1"></i>'.repeat(2) + '<i class="fa-solid fa-star-half-stroke text-yellow-400 mr-1"></i>';
+                comment = "Keren Sekali Zidni! Hanya sedikit lagi menuju nilai sempurna. Yuk, asah lagi! 🥈⭐";
+                shootConfetti();
+            } else if (scorePercent >= 60) {
+                starsHTML = '<i class="fa-solid fa-star text-yellow-400 mr-1"></i>' + '<i class="fa-solid fa-star text-slate-300 mr-1"></i>'.repeat(2);
+                comment = "Hebat Zidni! Sudah berhasil melewati batas kuis. Yuk coba lagi agar nilainya makin tinggi! 💪";
+            } else {
+                starsHTML = '<i class="fa-solid fa-star text-slate-300 mr-1"></i>'.repeat(3);
+                comment = "Semangat terus, Zidni! Baca ulang materi belajarnya pelan-pelan, lalu coba paket kuis ini lagi ya! ❤️";
+            }
+
+
+            starsContainer.innerHTML = starsHTML;
+            document.getElementById('result-commentary').innerText = comment;
+
+
+            playSynthSound('win');
+        }
+
+
+        function restartCurrentQuiz() {
+            startSpecificPacket(currentPacketNum);
+        }
+
+
+        function resetToQuizConfig() {
+            document.getElementById('quiz-result-panel').classList.add('hidden');
+            document.getElementById('quiz-active-panel').classList.add('hidden');
+            document.getElementById('quiz-config-card').classList.remove('hidden');
+        }
+
+
+        // Helper: Shuffle Array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+
+        // Helper: Confetti Explosion
+        function shootConfetti() {
+            try {
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            } catch(e) {
+                // Fail silently if library is blocked
+            }
+        }
+    </script>
+</body>
+</html>
